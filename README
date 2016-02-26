@@ -1,0 +1,16 @@
+netcdf plugin for OpenCPN
+========================
+
+Prerequisities
+--------------
+NetCDF program must be installed.
+
+Compiling
+=========
+Only tested with Windows.
+
+
+License
+=======
+The plugin code is licensed under the terms of the GPL v2 or, at your will, later.
+
