@@ -248,9 +248,9 @@ int MainDialog::nc_get(wxString filestr){
 
 	int count_records = 0;
 
-	if ((retval = nc_inq_varid(ncid, TIME_NAME, &time_varid))){
-		ERR(retval);
-	}
+	//if ((retval = nc_inq_varid(ncid, TIME_NAME, &time_varid))){
+		//ERR(retval);
+	//}
 
 	int startminutes = 0;
 	int time_out[48];
@@ -298,7 +298,10 @@ int MainDialog::nc_get(wxString filestr){
 
         wxDateTime dt;
 		dt = GetDateFromHours(time_out[i]);
-		
+
+		//wxString d = wxString::Format(_T("%i"), time_out[i]);
+		//wxString d = dt.Format(_T("%d %b %Y %H:%M"));
+		//wxMessageBox(d);
 		myncdfData.dataDateTime = dt;
 		myncdfData.minutesAfterStart = startminutes;
 		myncdfData.numberOfPoints = count_records - 1;
@@ -331,10 +334,11 @@ wxDateTime MainDialog::GetDateFromHours(int hours_in){
 	wxDateTime m_dt;
 	m_dt.ParseDateTime(baseDateTime);
 
-	wxTimeSpan m_ts = wxTimeSpan::Hours(hours_in);
+	wxTimeSpan m_ts = wxTimeSpan::Hours(hours_in + 1);
 	m_dt.Add(m_ts);
-	wxString d  = m_dt.Format(_T("%d %b %Y %H:%M"));
 
+	//wxString d  = m_dt.Format(_T("%d %b %Y %H:%M"));
+	//wxMessageBox(d);
 	return m_dt;
 }
 
