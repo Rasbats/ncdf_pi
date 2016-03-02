@@ -1,16 +1,25 @@
-netcdf plugin for OpenCPN
-========================
+netcdf plugin for OpenCPN 4.2.0
+==============================
 
-Prerequisities
---------------
-NetCDF program must be installed.
-
-Compiling
+Compiling 
 =========
-Only tested with Windows.
+The plugin can be built standalone.
+* clone the plugin repository from github
 
+Place opencpn.lib in your build directory.
+
+Build as normally:
+
+Used CMake.gui
+
+Only tested with Windows/VS 2013.
+
+Install NetCDF 4.4.0 from the extras folder. Link to netcdf.lib etc etc.
+
+IMPORTANT: Only coded for OpenGL OFF
 
 License
 =======
 The plugin code is licensed under the terms of the GPL v2 or, at your will, later.
+
 
