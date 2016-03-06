@@ -94,7 +94,7 @@ SET(SRC_ncdf
     src/helper.h
     src/icons2.cpp
     src/icons2.h
-   
+    src/folder.xpm
 )
 ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_ncdf})
 
