@@ -37,7 +37,7 @@ ncdfDialog::ncdfDialog( wxWindow* parent, wxWindowID id, const wxString& title, 
 	
 	bSizer2->Add( m_textCtrlDir, 0, wxALL, 5 );
 	
-	m_fileButton = new wxBitmapButton( m_panel1, wxID_ANY, wxBitmap( folder ), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	m_fileButton = new wxBitmapButton( m_panel1, wxID_ANY, wxBitmap(folder), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	bSizer2->Add( m_fileButton, 0, wxALL, 5 );
 	
 	fgSizer1->Add( bSizer2, 1, wxEXPAND, 5 );
@@ -70,14 +70,13 @@ ncdfDialog::ncdfDialog( wxWindow* parent, wxWindowID id, const wxString& title, 
 
 	wxBoxSizer* bSizer11;
 	bSizer11 = new wxBoxSizer( wxHORIZONTAL );
-	
+	bSizer11->Add(24, 0, 0, wxEXPAND, 0);
+
 	m_checkBoxDCurrent = new wxCheckBox( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer11->Add( m_checkBoxDCurrent, 0, wxALL|wxALIGN_CENTER_VERTICAL, 0 );
-	
-	
-	bSizer11->Add( 24, 0, 0, wxEXPAND, 0 );
-	
-	m_staticText333 = new wxStaticText( m_panel1, wxID_ANY, _("Current"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_checkBoxDCurrent->SetValue(true);
+
+	m_staticText333 = new wxStaticText( m_panel1, wxID_ANY, _("  Current"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText333->Wrap( -1 );
 	m_staticText333->SetMinSize( wxSize( 100,-1 ) );
 	
@@ -102,7 +101,7 @@ ncdfDialog::ncdfDialog( wxWindow* parent, wxWindowID id, const wxString& title, 
 	m_checkBoxBmpCurrentForce = new wxCheckBox( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer14->Add( m_checkBoxBmpCurrentForce, 0, wxALL, 0 );
 	
-	m_staticText40 = new wxStaticText( m_panel1, wxID_ANY, _("Force"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText40 = new wxStaticText( m_panel1, wxID_ANY, _("  Force"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText40->Wrap( -1 );
 	m_staticText40->SetMinSize( wxSize( 100,-1 ) );
 	
