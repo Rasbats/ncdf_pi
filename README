@@ -14,9 +14,11 @@ Used CMake.gui
 
 Only tested with Windows/VS 2013.
 
-Install NetCDF 4.4.0 from the extras folder. Link to netcdf.lib etc etc.
+Install NetCDF 4.4.0 from the releases folder. Link to netcdf.lib etc etc.
 
-IMPORTANT: Only coded for OpenGL OFF
+IMPORTANT: Coded for OpenGL OFF AND ON
+
+Compiled plugin in the releases folder.
 
 License
 =======
