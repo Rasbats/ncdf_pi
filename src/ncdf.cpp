@@ -19,12 +19,13 @@
 #include <wx/sstream.h>
 #include <wx/protocol/http.h>
 #include <wx/treectrl.h>
+#include <wx/treebase.h>
 #include <wx/hash.h>
 #include <wx/utils.h>
 #include <wx/log.h>
 #include <wx/stdpaths.h>
 
-//#include "folder.xpm"
+#include "folder.xpm"
 
 #include "ncdf.h"
 #include "ncdf_reader.h"
@@ -39,6 +40,9 @@ MainDialog::MainDialog(wxWindow *parent) : ncdfDialog( parent )
 	= selectionRectangle.topLat = selectionRectangle.topLon = ncdf_NOTDEF;
 
 	log_window_m = NULL;
+
+	m_bpPrev->SetBitmap(wxBitmap(prev1));
+	m_bpNext->SetBitmap(wxBitmap(next1));
 }
 
 MainDialog::~MainDialog() 
@@ -120,6 +124,72 @@ double** MainDialog::makeGridDataCURRENT(ncdfDataMessage message, wxString curre
 	return grid;
 }
 
+void MainDialog::onPrev(wxCommandEvent& event) {
+
+	// show some info about this item
+	wxTreeItemId itemId = m_treeCtrl->GetFocusedItem();
+	MyTreeItemData *item = (MyTreeItemData *)this->m_treeCtrl->GetItemData(itemId);
+	this->m_treeCtrl->SetItemDropHighlight(itemId, false);
+
+	if (item != NULL)
+	{		
+		wxTreeItemId tid;
+		tid = this->m_treeCtrl->GetPrevSibling(itemId);
+		if (tid.IsOk() == true){
+			this->m_treeCtrl->SetItemDropHighlight(tid, true);
+			this->m_treeCtrl->SetFocusedItem(tid);
+			readData(tid);
+			//MyTreeItemData *t = (MyTreeItemData *)this->m_treeCtrl->GetItemData(tid);
+			//wxString d = t->dt.Format(_T("%d %b %Y %H:%M"));
+			//wxMessageBox(d);
+		}
+		else {
+			this->m_treeCtrl->SetItemDropHighlight(itemId, true);
+			return;
+		}
+	}
+
+}
+
+void MainDialog::onNext(wxCommandEvent& event) {
+
+	// show some info about this item
+	wxTreeItemId itemId = m_treeCtrl->GetFocusedItem();
+	MyTreeItemData *item = (MyTreeItemData *)this->m_treeCtrl->GetItemData(itemId);
+	this->m_treeCtrl->SetItemDropHighlight(itemId, false);
+
+	if (item != NULL)
+	{
+		wxTreeItemId tid;
+		tid = this->m_treeCtrl->GetNextSibling(itemId);
+		if (tid.IsOk() == true){
+			this->m_treeCtrl->SetItemDropHighlight(tid, true);
+			this->m_treeCtrl->SetFocusedItem(tid);
+			readData(tid);
+			//MyTreeItemData *t = (MyTreeItemData *)this->m_treeCtrl->GetItemData(tid);
+			//wxString d = t->dt.Format(_T("%d %b %Y %H:%M"));
+			//wxMessageBox(d);
+		}
+		else {
+			this->m_treeCtrl->SetItemDropHighlight(itemId, true);
+			return;
+		}
+	}
+
+}
+
+void MainDialog::readData(wxTreeItemId itemId) {
+	MyTreeItemData *data = (MyTreeItemData *) this->m_treeCtrl->GetItemData(itemId);
+	if (data != NULL)
+	{
+		this->my_ncdfReader->readncdfFile(data->myData);
+		pPlugIn->GetncdfOverlayFactory()->renderSelectionRectangle = false;
+		RequestRefresh(m_parent);
+	}
+}
+
+
+
 void MainDialog::OnCloseFrame(wxCloseEvent& event) {
 
 }
@@ -174,7 +244,7 @@ int MainDialog::nc_get(wxString filestr){
 
 	int status, latid, lonid, timeid;
 	size_t timelength, latlength, lonlength;
-
+	// Obtain the size of the dimensions of time, latitude and longitude
 	status = nc_inq_dimid(ncid, "time", &timeid);
 	status = nc_inq_dimlen(ncid, timeid, &timelength);
 	int time_dim = timelength*sizeof(int);
@@ -185,27 +255,10 @@ int MainDialog::nc_get(wxString filestr){
 
 	status = nc_inq_dimid(ncid, "longitude", &lonid);
 	status = nc_inq_dimlen(ncid, lonid, &lonlength);
-
 	int lon_dim = lonlength*sizeof(int);
-
-	if (lat_dim/4 < NLAT ){
-		wxString mb = _T("The latitude range for the NetCDF file ");
-		mb = mb + filestr;
-		wxString mbl = mb + _T(" is too small");
-
-		wxMessageBox(mbl, _T("NetCDF file size error"));
-		return 2;
-	}
-	else if (lon_dim / 4 < NLON){
-		wxString mb = _T("The longitude range for the NetCDF file ");
-		mb = mb + filestr;
-		wxString mbl = mb + _T(" is too small");
-
-		wxMessageBox(mbl, _T("NetCDF file size error"));
-		return 2;
-
-	}
-
+	// End of dimension finding
+	//
+	// Obtain the identifiers for variables
 	if ((retval = nc_inq_varid(ncid, V_NAME, &v_varid))){
 		ERR(retval);
 	}
@@ -221,31 +274,93 @@ int MainDialog::nc_get(wxString filestr){
 	if ((retval = nc_inq_varid(ncid, LON_NAME, &lon_varid))){
 		ERR(retval);
 	}
-
+	// End of identifiers
+	//
 	float firstGridPointLat;
 	float firstGridPointLon;
 	float lastGridPointLat;
 	float lastGridPointLon;
-
 	float scale_factor;
 
+	// Some additional data from the file
 	status = nc_get_att_float(ncid, NC_GLOBAL, "latitude_min", &firstGridPointLat);
 	status = nc_get_att_float(ncid, NC_GLOBAL, "longitude_min", &firstGridPointLon);
 	status = nc_get_att_float(ncid, NC_GLOBAL, "latitude_max", &lastGridPointLat);
 	status = nc_get_att_float(ncid, NC_GLOBAL, "longitude_max", &lastGridPointLon);
-
 	status = nc_get_att_float(ncid, u_varid, "scale_factor", &scale_factor);
-	
+	//
+	//
+
 	int nbr_uv;
 	
-	nbr_uv = NLAT*NLON;
+	int EC = 1;
+	int IS = 2;
+	int SB = 3;
+
+	int choose = 1;
+
+	int la = floor(lat_dim / 4);
+	int ln = floor(lon_dim / 4);
+	
+	if (la >= 105 && ln >= 315){
+		choose = 1;
+	}else
+		if (la >= 175 && ln >= 245){
+			choose = 2;
+		}
+		else
+			if(la >= 70 && ln >= 105){
+				choose = 3;
+			}
+			else return 2;
 	
 	static size_t start[] = { 0, 0, 0 };
+	//
+	// count for each area
 	static size_t count[] = { 1, NLAT, NLON };
+	static size_t count_is[] = { 1, NLATIS, NLONIS };
+	static size_t count_sb[] = { 1, NLATSB, NLONSB };
+	// End of counts
+	//
+	float* u_vals = 0;
+	float* v_vals = 0;
 
-	float u_vals[1][NLAT][NLON];
-	float v_vals[1][NLAT][NLON];
+	int nlatsel;   /// int used to hold NLAT needed for an area
+	int nlonsel;
 
+	if (choose == IS){
+
+		nbr_uv = NLATIS * NLONIS;
+
+		u_vals = (float*)calloc(nbr_uv, sizeof(float));
+		v_vals = (float*)calloc(nbr_uv, sizeof(float));
+			
+		nlatsel = NLATIS;
+		nlonsel = NLONIS;
+		
+	} else
+
+	if (choose == EC){
+		
+		nbr_uv = NLAT * NLON;
+
+		u_vals = (float*)calloc(nbr_uv, sizeof(float));
+		v_vals = (float*)calloc(nbr_uv, sizeof(float));
+
+		nlatsel = NLAT;
+		nlonsel = NLON;
+	}else
+		if (choose == SB){
+
+			nbr_uv = NLATSB * NLONSB;
+
+			u_vals = (float*)calloc(nbr_uv, sizeof(float));
+			v_vals = (float*)calloc(nbr_uv, sizeof(float));
+
+			nlatsel = NLATSB;
+			nlonsel = NLONSB;
+		}
+	
 	int count_records = 0;
 
 	//if ((retval = nc_inq_varid(ncid, TIME_NAME, &time_varid))){
@@ -253,7 +368,7 @@ int MainDialog::nc_get(wxString filestr){
 	//}
 
 	int startminutes = 0;
-	int time_out[48];
+	int time_out[192];
 	nc_get_var_int(ncid, time_varid, (int*)time_out);
 	
 	float* lats = 0, *lons = 0;
@@ -270,21 +385,36 @@ int MainDialog::nc_get(wxString filestr){
 		start[0] = i;
 		count_records = 0;
 
-	    status = nc_get_vara_float(ncid, u_varid, start, count, (float*)u_vals);
-		status = nc_get_vara_float(ncid, v_varid, start, count, (float*)v_vals);
+		if (choose == EC){
+			status = nc_get_vara_float(ncid, u_varid, start, count, (float*)u_vals);
+			status = nc_get_vara_float(ncid, v_varid, start, count, (float*)v_vals);
+		}
+		else
+			if (choose == IS){
+				status = nc_get_vara_float(ncid, u_varid, start, count_is, (float*)u_vals);
+				status = nc_get_vara_float(ncid, v_varid, start, count_is, (float*)v_vals);
+			}
+			else
+				if (choose == SB){
+					status = nc_get_vara_float(ncid, u_varid, start, count_sb, (float*)u_vals);
+					status = nc_get_vara_float(ncid, v_varid, start, count_sb, (float*)v_vals);
+				}
+		
+
+		//status = nc_get_vara_float(ncid, v_varid, start, count, (float*)v_vals);
 
 		myncdfData.ucurr = (double*)calloc(nbr_uv + 1, sizeof(double));
 		myncdfData.vcurr = (double*)calloc(nbr_uv + 1, sizeof(double));
 		myncdfData.uvlats = (double*)calloc(nbr_uv + 1, sizeof(double));
 		myncdfData.uvlons = (double*)calloc(nbr_uv + 1, sizeof(double));
 
-		for (j = 0; j < NLAT; j++){
-			for (k = 0; k < NLON; k++){
-				if (u_vals[0][j][k] != -32767 && v_vals[0][j][k] != -32767){					
+		for (j = 0; j < nlatsel; j++){
+			for (k = 0; k < nlonsel; k++){
+				if (u_vals[count_records] != -32767 && v_vals[count_records] != -32767){					
 					myncdfData.uvlats[count_records] = (double)lats[j];
 					myncdfData.uvlons[count_records] = (double)lons[k];
-					myncdfData.ucurr[count_records] = (double)u_vals[0][j][k] / 1000;
-					myncdfData.vcurr[count_records] = (double)v_vals[0][j][k] / 1000;				
+					myncdfData.ucurr[count_records] = (double)u_vals[count_records] / 1000;
+					myncdfData.vcurr[count_records] = (double)v_vals[count_records] / 1000;
 				}
 				else{
 					myncdfData.uvlats[count_records] = NULL;
@@ -305,8 +435,8 @@ int MainDialog::nc_get(wxString filestr){
 		myncdfData.dataDateTime = dt;
 		myncdfData.minutesAfterStart = startminutes;
 		myncdfData.numberOfPoints = count_records - 1;
-		myncdfData.noPointsParallel = NLON;
-		myncdfData.noPointsMeridian = NLAT;
+		myncdfData.noPointsParallel = nlonsel;
+		myncdfData.noPointsMeridian = nlatsel;
 		myncdfData.firstGridPointLat = firstGridPointLat;
 		myncdfData.firstGridPointLong = firstGridPointLon;
 		myncdfData.lastGridPointLat = lastGridPointLat;

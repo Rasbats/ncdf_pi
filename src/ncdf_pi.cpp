@@ -90,10 +90,10 @@ int ncdf_pi::Init(void)
       // Set some default private member parameters
       m_ncdf_dialog_x = 0;
       m_ncdf_dialog_y = 0;
-      m_ncdf_dialog_sx = 200;
-      m_ncdf_dialog_sy = 200;
+      m_ncdf_dialog_sx = 270;
+      m_ncdf_dialog_sy = 460;
       m_pncdfDialog = NULL;
-      //m_pncdfOverlayFactory = NULL;
+      m_pncdfOverlayFactory = NULL;
 
       ::wxDisplaySize(&m_display_width, &m_display_height);
 
@@ -246,6 +246,22 @@ bool ncdf_pi::RenderOverlay(wxDC &pmdc, PlugIn_ViewPort *vp)
             return false;
 }
 
+bool ncdf_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp)
+{
+	if (m_pncdfDialog && m_pncdfOverlayFactory)
+	{
+		if (m_pncdfOverlayFactory->isReadyToRender())
+		{
+			m_pncdfOverlayFactory->RenderGLncdfOverlay(pcontext, vp);
+			return true;
+		}
+		else
+			return false;
+	}
+	else
+		return false;
+}
+
 void ncdf_pi::SetCursorLatLon(double lat, double lon)
 {
       if(m_pncdfDialog)
@@ -267,8 +283,8 @@ bool ncdf_pi::LoadConfig(void)
             pConf->Read ( _T( "ShowncdfIcon" ),  &m_bncdfShowIcon, 1 );
 
 
-            m_ncdf_dialog_sx = pConf->Read ( _T ( "ncdfDialogSizeX" ), 300L );
-            m_ncdf_dialog_sy = pConf->Read ( _T ( "ncdfDialogSizeY" ), 360L );
+            m_ncdf_dialog_sx = pConf->Read ( _T ( "ncdfDialogSizeX" ), 270L );
+            m_ncdf_dialog_sy = pConf->Read ( _T ( "ncdfDialogSizeY" ), 460L );
             m_ncdf_dialog_x =  pConf->Read ( _T ( "GRI2BDialogPosX" ), 20L );
             m_ncdf_dialog_y =  pConf->Read ( _T ( "ncdfDialogPosY" ), 20L );
 

@@ -37,7 +37,8 @@
 #include "ocpn_plugin.h"
 
 #include "ncdfdata.h"
-
+#include "wx/graphics.h"
+#include <gl/GL.h>
 #include <vector>
 #include "ncdf.h"
 
@@ -58,16 +59,19 @@ public:
      void setSelectionRectangle(Selection *rect);
      bool isReadyToRender(){ return m_bReadyToRender; }
      void clearBmp();
-     bool RenderncdfOverlay(wxDC &pmdc, PlugIn_ViewPort *vp );
+	 bool RenderGLncdfOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp);
+	 bool RenderncdfOverlay(wxDC &dc, PlugIn_ViewPort *vp);
+	 bool DoRenderncdfOverlay(PlugIn_ViewPort *vp);
      void RenderSelectionRectangle();
 	 void RenderMyArrows(PlugIn_ViewPort *vp);  
      void RenderncdfCurrent();     
      bool RenderncdfCurrentBmp();
 
-     void drawWaveArrow(wxDC *pmdc, int i, int j, double ang, wxColour arrowColor);
+     void drawWaveArrow(int i, int j, double ang, wxColour arrowColor);
      
-     void drawTransformedLine( wxDC *pmdc, wxPen pen,
-                               double si, double co,int di, int dj, int i,int j, int k,int l);
+     void drawTransformedLine( wxPen pen, double si, double co,int di, int dj, int i,int j, int k,int l);
+	 void DrawGLLine(double x1, double y1, double x2, double y2, double width, wxColour myColour);
+	 void DrawOLBitmap(const wxBitmap &bitmap, wxCoord x, wxCoord y, bool usemask);
      void drawPetiteBarbule(wxDC *pmdc, wxPen pen, bool south,
                                double si, double co, int di, int dj, int b);
      void drawGrandeBarbule(wxDC *pmdc, wxPen pen, bool south,
@@ -99,6 +103,12 @@ private:
      
      wxBitmap		*m_pbm_current;
      Selection		*rect;
+
+	 wxDC *m_pdc;
+#if wxUSE_GRAPHICS_CONTEXT
+	 wxGraphicsContext *m_gdc;
+#endif
+	 bool m_hiDefGraphics;
 };
 
 

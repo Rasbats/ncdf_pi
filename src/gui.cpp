@@ -33,7 +33,7 @@ ncdfDialog::ncdfDialog( wxWindow* parent, wxWindowID id, const wxString& title, 
 	bSizer2 = new wxBoxSizer( wxHORIZONTAL );
 	
 	m_textCtrlDir = new wxTextCtrl( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
-	m_textCtrlDir->SetMinSize( wxSize( 250,-1 ) );
+	m_textCtrlDir->SetMinSize( wxSize( 180,-1 ) );
 	
 	bSizer2->Add( m_textCtrlDir, 0, wxALL, 5 );
 	
@@ -43,18 +43,67 @@ ncdfDialog::ncdfDialog( wxWindow* parent, wxWindowID id, const wxString& title, 
 	fgSizer1->Add( bSizer2, 1, wxEXPAND, 5 );
 	
 	m_treeCtrl = new wxTreeCtrl( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxHSCROLL|wxSUNKEN_BORDER );
-	m_treeCtrl->SetFont( wxFont( 9, 74, 90, 90, false, wxT("Sans") ) );
+	m_treeCtrl->SetFont( wxFont( 9, 74, 90, 90, false, wxT("Sans Bold") ) );
 	m_treeCtrl->SetMinSize( wxSize( -1,150 ) );
 	
 	fgSizer1->Add( m_treeCtrl, 0, wxALL|wxEXPAND, 5 );
 	
 	m_staticTextDateTime = new wxStaticText( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextDateTime->Wrap( -1 );
-	fgSizer1->Add( m_staticTextDateTime, 1, wxALL, 5 );
+	fgSizer1->Add(m_staticTextDateTime, 1, wxALL, 5);
+
+
+	wxFlexGridSizer* fgSizer7;
+	fgSizer7 = new wxFlexGridSizer(1, 2, 0, 0);
+	fgSizer7->AddGrowableRow(1);
+	fgSizer7->SetFlexibleDirection(wxHORIZONTAL);
+	fgSizer7->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_ALL);
+
+	wxBoxSizer* bSizer15;
+	bSizer15 = new wxBoxSizer(wxHORIZONTAL);
+
+
+	bSizer15->Add(40, 0, 1, wxEXPAND, 5);
+
+	m_bpPrev = new wxBitmapButton(m_panel1, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	bSizer15->Add(m_bpPrev, 0, wxALL, 5);
+
+
+	bSizer15->Add(24, 0, 1, wxEXPAND, 5);
+
+	m_bpNext = new wxBitmapButton(m_panel1, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	bSizer15->Add(m_bpNext, 0, wxALL, 5);
+
+
+	fgSizer7->Add(bSizer15, 1, wxEXPAND, 5);
+
+
+	fgSizer1->Add(fgSizer7, 1, wxEXPAND, 5);
+
 	
 	m_staticline1 = new wxStaticLine( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
 	fgSizer1->Add( m_staticline1, 0, wxEXPAND | wxALL, 5 );
 	
+//	wxBoxSizer* bSizer131;
+//	bSizer131 = new wxBoxSizer(wxHORIZONTAL);
+
+	wxString m_areaChoices[] = { _T("English Channel"), _T("South Brittany"), _T("Irish Sea"), 
+		_T("Western Ireland"),	_T("Western Scotland"), _T("North Sea - South"), 
+		_T("North Sea - North"), _T("Biscay East"),	_T("Biscay South"), 
+		_T("Orkney/Shetlands")};
+
+	int m_areaNChoices = sizeof(m_areaChoices) / sizeof(wxString);
+
+	m_choiceArea = new wxChoice(m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_areaNChoices, m_areaChoices, 0);
+	m_choiceArea->SetSelection(0);
+
+	fgSizer1->Add(m_choiceArea, 0, wxALL | wxEXPAND, 5);
+
+	m_staticline11 = new wxStaticLine(m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL);
+	fgSizer1->Add(m_staticline11, 0, wxEXPAND | wxALL, 5);
+
+	//fgSizer1->Add(bSizer131, wxEXPAND, 5);
+
 	wxFlexGridSizer* fgSizer2;
 	fgSizer2 = new wxFlexGridSizer( 5, 1, 0, 0 );
 	fgSizer2->SetFlexibleDirection( wxBOTH );
@@ -78,7 +127,7 @@ ncdfDialog::ncdfDialog( wxWindow* parent, wxWindowID id, const wxString& title, 
 
 	m_staticText333 = new wxStaticText( m_panel1, wxID_ANY, _("  Current"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText333->Wrap( -1 );
-	m_staticText333->SetMinSize( wxSize( 100,-1 ) );
+	m_staticText333->SetMinSize( wxSize( 80,-1 ) );
 	
 	bSizer11->Add( m_staticText333, 0, wxALL|wxALIGN_CENTER_VERTICAL, 0 );
 	
@@ -103,7 +152,7 @@ ncdfDialog::ncdfDialog( wxWindow* parent, wxWindowID id, const wxString& title, 
 	
 	m_staticText40 = new wxStaticText( m_panel1, wxID_ANY, _("  Force"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText40->Wrap( -1 );
-	m_staticText40->SetMinSize( wxSize( 100,-1 ) );
+	m_staticText40->SetMinSize( wxSize( 80,-1 ) );
 	
 	bSizer14->Add( m_staticText40, 0, wxALL|wxALIGN_CENTER_VERTICAL, 0 );
 	
@@ -154,6 +203,9 @@ ncdfDialog::ncdfDialog( wxWindow* parent, wxWindowID id, const wxString& title, 
 	m_treeCtrl->Connect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( ncdfDialog::onTreeSelectionChanged ), NULL, this );
 	m_checkBoxDCurrent->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( ncdfDialog::onDCurrentClick ), NULL, this );
 	m_checkBoxBmpCurrentForce->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( ncdfDialog::onBmpCurrentForceClick ), NULL, this );
+	m_bpPrev->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ncdfDialog::onPrev), NULL, this);
+	m_bpNext->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ncdfDialog::onNext), NULL, this);
+
 }
 
 ncdfDialog::~ncdfDialog()
@@ -168,4 +220,8 @@ ncdfDialog::~ncdfDialog()
 	m_treeCtrl->Disconnect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( ncdfDialog::onTreeSelectionChanged ), NULL, this );
 	m_checkBoxDCurrent->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( ncdfDialog::onDCurrentClick ), NULL, this );
 	m_checkBoxBmpCurrentForce->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( ncdfDialog::onBmpCurrentForceClick ), NULL, this );	
+	m_bpPrev->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ncdfDialog::onPrev), NULL, this);
+	m_bpNext->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ncdfDialog::onNext), NULL, this);
+
+
 }

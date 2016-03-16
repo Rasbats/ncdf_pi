@@ -25,6 +25,7 @@
 #include <wx/treectrl.h>
 #include <wx/stattext.h>
 #include <wx/statline.h>
+#include <wx/listbox.h>
 #include <wx/checkbox.h>
 #include <wx/panel.h>
 #include <wx/choice.h>
@@ -43,8 +44,12 @@ class ncdfDialog : public wxDialog
 	
 	protected:
 		wxNotebook* m_notebook1;
-		wxPanel* m_panel1;
-		wxStaticLine* m_staticline1;		
+		wxPanel*    m_panel1;
+		wxStaticLine* m_staticline1;
+		wxBitmapButton* m_bpPrev;
+		wxBitmapButton* m_bpNext;
+		wxChoice*     m_choiceArea;
+		wxStaticLine* m_staticline11;		
 		wxStaticText* m_staticText34;
 		wxStaticText* m_staticText24;
 		
@@ -84,6 +89,8 @@ class ncdfDialog : public wxDialog
 		virtual void onBmpCurrentForceClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void onButtonSelectionReset( wxCommandEvent& event ) { event.Skip(); }
 		virtual void onDownLoadOK( wxCommandEvent& event ) { event.Skip(); }
+		virtual void onPrev(wxCommandEvent& event) { event.Skip(); }
+		virtual void onNext(wxCommandEvent& event) { event.Skip(); }
 		
 	
 	public:
@@ -96,7 +103,7 @@ class ncdfDialog : public wxDialog
 		wxCheckBox* m_checkBoxBmpCurrentForce;
 		wxTextCtrl* m_textCtrlCurrentForce;
 		
-		ncdfDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("ncdfDialog"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 330,360 ), long style =wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		ncdfDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("ncdfDialog"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 270,460 ), long style =wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 		~ncdfDialog();
 	
 };

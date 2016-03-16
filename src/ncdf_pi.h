@@ -36,7 +36,7 @@
 #endif //precompiled headers
 
 #define     PLUGIN_VERSION_MAJOR    0
-#define     PLUGIN_VERSION_MINOR    1
+#define     PLUGIN_VERSION_MINOR    2
 
 #define     MY_API_VERSION_MAJOR    1
 #define     MY_API_VERSION_MINOR    7
@@ -71,6 +71,7 @@ public:
 
 //    The required override PlugIn Methods
       bool RenderOverlay(wxDC &pmdc, PlugIn_ViewPort *vp);
+	  bool RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp);
       void SetCursorLatLon(double lat, double lon);
 
 

@@ -77,10 +77,31 @@ void ncdfOverlayFactory::reset()
     clearBmp();
 }
 
-bool ncdfOverlayFactory::RenderncdfOverlay(wxDC &pmdc, PlugIn_ViewPort *vp )
+
+bool ncdfOverlayFactory::RenderGLncdfOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp)
 {
-    this->vp = vp; this->pmdc = &pmdc; 
-    
+	m_pdc = NULL;  // inform lower layers that this is OpenGL render
+	return DoRenderncdfOverlay(vp);
+}
+
+
+bool ncdfOverlayFactory::RenderncdfOverlay(wxDC &dc, PlugIn_ViewPort *vp)
+{
+#if wxUSE_GRAPHICS_CONTEXT
+	wxMemoryDC *pmdc;
+	pmdc = wxDynamicCast(&dc, wxMemoryDC);
+	wxGraphicsContext *pgc = wxGraphicsContext::Create(*pmdc);
+	m_gdc = pgc;
+#endif
+	m_pdc = &dc;
+	return DoRenderncdfOverlay(vp);
+}
+
+
+bool ncdfOverlayFactory::DoRenderncdfOverlay(PlugIn_ViewPort *vp )
+{
+    this->vp = vp;
+	//return true; //for debug
     
     if(vp->view_scale_ppm != m_last_vp_scale)
     {
@@ -154,9 +175,10 @@ void ncdfOverlayFactory::RenderncdfCurrent()
       wxColour colour;
       wxPoint p;
 	  int mi;	
+	 
 
 	  for (mi = 0; mi < numberOfPoints; mi++){		  
-
+ 
 		  double lat = g2data.uvlats[mi];
 		  double lon = g2data.uvlons[mi];
 
@@ -172,7 +194,8 @@ void ncdfOverlayFactory::RenderncdfCurrent()
 
 		  GetGlobalColor(_T("UBLCK"), &colour);
 		 // g2data.ucurr[mi] = NAN;
-
+	  //wxMessageBox(_T("here"));
+	 // return;
 		  if (g2data.ucurr[mi] != NULL && g2data.vcurr[mi] != NULL){
 			  GetCanvasPixLL(vp, &p, lat, lon);
 			  if (PointInLLBox(vp, lon, lat))
@@ -181,7 +204,10 @@ void ncdfOverlayFactory::RenderncdfCurrent()
 					  //double force = sqrt(ucurr[mi] * ucurr[mi] + vcurr[mi] * vcurr[mi])*3.6 / 1.852;
 					  double dir = 90. + (atan2(g2data.vcurr[mi], -g2data.ucurr[mi])  * 180. / PI);
 					  if (dir < 0) dir = 360 + dir;
-					  drawWaveArrow(pmdc, p.x, p.y, dir - 90, colour);
+
+					 // wxMessageBox(_T("here"));
+					//  return;
+					  drawWaveArrow(p.x, p.y, dir - 90, colour);
 					
 			  }
 		  }
@@ -297,34 +323,50 @@ bool ncdfOverlayFactory::RenderncdfCurrentBmp()
 
             if(m_pbm_current)
             {      
-                  pmdc->DrawBitmap(*m_pbm_current, porg.x, porg.y, true);
+                  DrawOLBitmap(*m_pbm_current, porg.x, porg.y, true);
             }
       return true;
 }
 
 
-void ncdfOverlayFactory::drawWaveArrow(wxDC *pmdc, int i, int j, double ang, wxColour arrowColor)
+void ncdfOverlayFactory::drawWaveArrow(int i, int j, double ang, wxColour arrowColor)
 {
       double si=sin(ang * PI / 180.),  co=cos(ang * PI / 180.);
 
+		wxPen pen(arrowColor, 1);
+//wxMessageBox(_T("here in m_pdc"));
+//return;
+ if (m_pdc) {	
+	 
+		  m_pdc->SetPen(pen);
+		  m_pdc->SetBrush(*wxTRANSPARENT_BRUSH);
+
+#if wxUSE_GRAPHICS_CONTEXT
+		  if (m_hiDefGraphics && m_gdc)
+			  m_gdc->SetPen(pen);
+#endif
+			}
+#ifdef ocpnUSE_GL
+	  else
+		  glColor3ub(arrowColor.Red(), arrowColor.Green(), arrowColor.Blue());
+#endif
+ /*
       wxPen pen( arrowColor, 1);
       pmdc->SetPen(pen);
       pmdc->SetBrush(*wxTRANSPARENT_BRUSH);
-
+*/
       int arrowSize = 26;
       int dec = -arrowSize/2;
 
+      drawTransformedLine(pen, si,co, i,j,  dec,-2,  dec + arrowSize, -2);
+	  drawTransformedLine(pen, si, co, i, j, dec, 2, dec + arrowSize, +2);
 
-      drawTransformedLine(pmdc, pen, si,co, i,j,  dec,-2,  dec + arrowSize, -2);
-      drawTransformedLine(pmdc, pen, si,co, i,j,  dec, 2,  dec + arrowSize, +2);
-
-      drawTransformedLine(pmdc, pen, si,co, i,j,  dec-2,  0,  dec+5,  6);    // flèche
-      drawTransformedLine(pmdc, pen, si,co, i,j,  dec-2,  0,  dec+5, -6);   // flèche
+	  drawTransformedLine(pen, si, co, i, j, dec - 2, 0, dec + 5, 6);    // flèche
+	  drawTransformedLine(pen, si, co, i, j, dec - 2, 0, dec + 5, -6);   // flèche
 
 }
 
-void ncdfOverlayFactory::drawTransformedLine( wxDC *pmdc, wxPen pen,
-                                    double si, double co,int di, int dj, int i,int j, int k,int l)
+void ncdfOverlayFactory::drawTransformedLine( wxPen pen, double si, double co,int di, int dj, int i,int j, int k,int l)
 {
       int ii, jj, kk, ll;
       ii = (int) (i*co-j*si +0.5) + di;
@@ -332,47 +374,172 @@ void ncdfOverlayFactory::drawTransformedLine( wxDC *pmdc, wxPen pen,
       kk = (int) (k*co-l*si +0.5) + di;
       ll = (int) (k*si+l*co +0.5) + dj;
 
+	  wxColor colour;
+	  GetGlobalColor(_T("UBLCK"), &colour);
+
+	  if (m_pdc){
+		  m_pdc->SetPen(pen);
+		  m_pdc->SetBrush(*wxTRANSPARENT_BRUSH);
+		  m_pdc->DrawLine(ii, jj, kk, ll);
+
+	  }
+	  else{
+		  DrawGLLine(ii, jj, kk, ll, 0.5, colour);
+	  }
+
+	  /*
 #if wxUSE_GRAPHICS_CONTEXT
-      if(0/*g_bncdfUseHiDef*/)
+     // if(0g_bncdfUseHiDef)
       {
-       ;  /*   if(m_pgc)
+       ;  if(m_pgc)
             {
                   m_pgc->SetPen(pen);
                   m_pgc->StrokeLine(ii, jj, kk, ll);
-            }*/
+            }
       }
       else
       {
-            pmdc->SetPen(pen);
-            pmdc->SetBrush(*wxTRANSPARENT_BRUSH);
-            pmdc->DrawLine(ii, jj, kk, ll);
+		  if (m_pdc){
+			  m_pdc->SetPen(pen);
+			  m_pdc->SetBrush(*wxTRANSPARENT_BRUSH);
+			  m_pdc->DrawLine(ii, jj, kk, ll);
+			  
+		  }
+		//  else{
+		//	 DrawGLLine(ii, jj, kk, ll, 1, colour);
+		//  }                  
       }
 
 #else
-      pmdc->SetPen(pen);
-      pmdc->SetBrush(*wxTRANSPARENT_BRUSH);
-      pmdc->DrawLine(ii, jj, kk, ll);
-#endif
+	  if (m_pdc){
+		  m_pdc->SetPen(pen);
+		  m_pdc->SetBrush(*wxTRANSPARENT_BRUSH);
+		  m_pdc->DrawLine(ii, jj, kk, ll);
 
+	  }
+	  else{
+		  DrawGLLine(ii, jj, kk, ll, 2, colour);
+	  }
+#endif
+*/
 }
 
+void ncdfOverlayFactory::DrawGLLine(double x1, double y1, double x2, double y2, double width, wxColour myColour)
+{
+	{
+		wxColour isoLineColor = myColour;
+		glColor4ub(isoLineColor.Red(), isoLineColor.Green(), isoLineColor.Blue(),
+			255/*isoLineColor.Alpha()*/);
+
+		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_LINE_BIT | GL_ENABLE_BIT |
+			GL_POLYGON_BIT | GL_HINT_BIT); //Save state
+		{
+
+			//      Enable anti-aliased lines, at best quality
+			glEnable(GL_LINE_SMOOTH);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+			glLineWidth(width);
+
+			glBegin(GL_LINES);
+			glVertex2d(x1, y1);
+			glVertex2d(x2, y2);
+			glEnd();
+		}
+
+		glPopAttrib();
+	}
+}
+
+void ncdfOverlayFactory::DrawOLBitmap(const wxBitmap &bitmap, wxCoord x, wxCoord y, bool usemask)
+{
+	wxBitmap bmp;
+	if (x < 0 || y < 0) {
+		int dx = (x < 0 ? -x : 0);
+		int dy = (y < 0 ? -y : 0);
+		int w = bitmap.GetWidth() - dx;
+		int h = bitmap.GetHeight() - dy;
+		/* picture is out of viewport */
+		if (w <= 0 || h <= 0) return;
+		wxBitmap newBitmap = bitmap.GetSubBitmap(wxRect(dx, dy, w, h));
+		x += dx;
+		y += dy;
+		bmp = newBitmap;
+	}
+	else {
+		bmp = bitmap;
+	}
+	if (m_pdc)
+		m_pdc->DrawBitmap(bmp, x, y, usemask);
+	else {
+		wxImage image = bmp.ConvertToImage();
+		int w = image.GetWidth(), h = image.GetHeight();
+
+		if (usemask) {
+			unsigned char *d = image.GetData();
+			unsigned char *a = image.GetAlpha();
+
+			unsigned char mr, mg, mb;
+			if (!image.GetOrFindMaskColour(&mr, &mg, &mb) && !a) printf(
+				"trying to use mask to draw a bitmap without alpha or mask\n");
+
+			unsigned char *e = new unsigned char[4 * w * h];
+			{
+				for (int y = 0; y < h; y++)
+					for (int x = 0; x < w; x++) {
+						unsigned char r, g, b;
+						int off = (y * image.GetWidth() + x);
+						r = d[off * 3 + 0];
+						g = d[off * 3 + 1];
+						b = d[off * 3 + 2];
+
+						e[off * 4 + 0] = r;
+						e[off * 4 + 1] = g;
+						e[off * 4 + 2] = b;
+
+						e[off * 4 + 3] =
+							a ? a[off] : ((r == mr) && (g == mg) && (b == mb) ? 0 : 255);
+					}
+			}
+
+			glColor4f(1, 1, 1, 1);
+
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glRasterPos2i(x, y);
+			glPixelZoom(1, -1);
+			glDrawPixels(w, h, GL_RGBA, GL_UNSIGNED_BYTE, e);
+			glPixelZoom(1, 1);
+			glDisable(GL_BLEND);
+
+			delete[](e);
+		}
+		else {
+			glRasterPos2i(x, y);
+			glPixelZoom(1, -1); /* draw data from top to bottom */
+			glDrawPixels(w, h, GL_RGB, GL_UNSIGNED_BYTE, image.GetData());
+			glPixelZoom(1, 1);
+		}
+	}
+}
 
 void ncdfOverlayFactory::drawPetiteBarbule(wxDC *pmdc, wxPen pen, bool south,
                                  double si, double co, int di, int dj, int b)
 {
       if (south)
-            drawTransformedLine(pmdc, pen, si,co, di,dj,  b,0,  b+2, -5);
+            drawTransformedLine(pen, si,co, di,dj,  b,0,  b+2, -5);
       else
-            drawTransformedLine(pmdc, pen, si,co, di,dj,  b,0,  b+2, 5);
+            drawTransformedLine(pen, si,co, di,dj,  b,0,  b+2, 5);
 }
 
 void ncdfOverlayFactory::drawGrandeBarbule(wxDC *pmdc, wxPen pen, bool south,
                                  double si, double co, int di, int dj, int b)
 {
       if (south)
-            drawTransformedLine(pmdc, pen, si,co, di,dj,  b,0,  b+4,-10);
+            drawTransformedLine(pen, si,co, di,dj,  b,0,  b+4,-10);
       else
-            drawTransformedLine(pmdc, pen, si,co, di,dj,  b,0,  b+4,10);
+            drawTransformedLine(pen, si,co, di,dj,  b,0,  b+4,10);
 }
 
 
@@ -380,12 +547,12 @@ void ncdfOverlayFactory::drawTriangle(wxDC *pmdc, wxPen pen, bool south,
                             double si, double co, int di, int dj, int b)
 {
       if (south) {
-            drawTransformedLine(pmdc, pen, si,co, di,dj,  b,0,  b+4,-10);
-            drawTransformedLine(pmdc, pen, si,co, di,dj,  b+8,0,  b+4,-10);
+            drawTransformedLine(pen, si,co, di,dj,  b,0,  b+4,-10);
+            drawTransformedLine(pen, si,co, di,dj,  b+8,0,  b+4,-10);
       }
       else {
-            drawTransformedLine(pmdc, pen, si,co, di,dj,  b,0,  b+4,10);
-            drawTransformedLine(pmdc, pen, si,co, di,dj,  b+8,0,  b+4,10);
+            drawTransformedLine(pen, si,co, di,dj,  b,0,  b+4,10);
+            drawTransformedLine(pen, si,co, di,dj,  b+8,0,  b+4,10);
       }
 }
 

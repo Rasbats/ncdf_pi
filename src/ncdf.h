@@ -32,9 +32,16 @@
 
 /* We are reading 3D data, a 48 x 70 x 140 time-lat-lon grid. */
 #define NDIMS 3
-#define NTIME 48	
-#define NLAT 70	
-#define NLON 140
+#define NTIME 192	
+#define NLAT 105	
+#define NLON 315
+
+#define NLATIS 175	
+#define NLONIS 245
+
+#define NLATSB 70	
+#define NLONSB 105
+
 
 #define LAT_NAME "latitude"
 #define LON_NAME "longitude"
@@ -57,10 +64,10 @@ using namespace std;
 struct treeItems
 {
 	long startDate;
-	int stepRange[48];
+	int stepRange[192];
 	int numberOfItems;
-	wxDateTime dateTimes[96];
-	int stepTimes[96];
+	//wxDateTime dateTimes[192];
+	//int stepTimes[192];
 	int messageCount;
 };
 
@@ -122,6 +129,9 @@ protected:
 	virtual void onCloseDialog( wxCloseEvent& event );
 	virtual void OnExitClick( wxCommandEvent& event );
 	virtual void onFileButtonClick(wxCommandEvent& event);
+	virtual void onPrev(wxCommandEvent& event);
+	virtual void onNext(wxCommandEvent& event);
+
 
 	wxDateTime GetDateFromHours(int hours_in);
 
@@ -132,6 +142,8 @@ protected:
 	virtual void onBmpCurrentForceClick( wxCommandEvent& event );
 	void fillDirTree(wxString dir, bool start, wxTreeItemId id);
 	void addChildren(wxTreeItemId id, wxString s);
+	void readData(wxTreeItemId itemId);
+
 };
 
 class MyTreeItemData : public wxTreeItemData
