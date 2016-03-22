@@ -675,7 +675,7 @@ void MainDialog::OnContextMenu(double m_lat, double m_lon){
 void MainDialog::BuildHelpPage(){
 
 	wxString myHelp;
-	myHelp = _("This page is intended to help users download \nthe areas to use with the ncdf plugin.\n\nThe display Areas for ncdf Tidal Currents\n are as follows:\n\nFormat: \nLat(Min), Lat(Max), Lon(Min), Lon(Max)\n\nEnglish Channel:           48, 51, -7, -2\nIrish Sea:                         50, 56, -9, -2\nSouthern Brittany:         46.5, 48.5, -5.5, -0.5\nNorth Sea:                      51, 56, -2.5, 5\nBiscay South:                 43, 47, -9.5, -0.5\nWestern Ireland:            50, 56, -12, -8               ");
+	myHelp = _("This page is intended to help users download \nthe areas to use with the ncdf plugin.\n\nThe display Areas for ncdf Tidal Currents\n are as follows:\n\nFormat: \nLat(Min), Lat(Max), Lon(Min), Lon(Max)\n\nEnglish Channel:           48, 51, -7, 2\nIrish Sea:                         50, 56, -9, -2\nSouthern Brittany:         46.5, 48.5, -5.5, -0.5\nNorth Sea:                      51, 56, -2.5, 5\nBiscay South:                 43, 47, -9.5, -0.5\nWestern Ireland:            50, 56, -12, -8               ");
 	m_staticText6->SetLabel(myHelp);
 }
 
