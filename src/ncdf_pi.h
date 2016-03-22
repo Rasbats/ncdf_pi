@@ -3,7 +3,7 @@
  *
  * Project:  OpenCPN
  * Purpose:  ncdf Plugin
- * Author:   David Register
+ * Author:   David Register, Mike Rossiter
  *
  ***************************************************************************
  *   Copyright (C) 2010 by David S. Register   *
@@ -70,22 +70,34 @@ public:
       wxString GetLongDescription();
 
 //    The required override PlugIn Methods
-      bool RenderOverlay(wxDC &pmdc, PlugIn_ViewPort *vp);
+      bool RenderOverlay(wxDC &pmdc, PlugIn_ViewPort *vp);	  
 	  bool RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp);
-      void SetCursorLatLon(double lat, double lon);
-
-
+	 
+	  bool RenderOverlayArrow(wxDC *dc, PlugIn_ViewPort *vp);
+      
+	  void SetCursorLatLon(double lat, double lon);
+	  void OnToolbarToolCallback(int id);
+	  void OnContextMenuItemCallback(int id);
       void SetDefaults(void);
       int GetToolbarToolCount(void);     
-      void OnToolbarToolCallback(int id);
       void OnncdfDialogClose();      
       ncdfOverlayFactory *GetncdfOverlayFactory(){ return m_pncdfOverlayFactory; }
 
       wxString         m_ncdf_dir;
-      
+      int			   m_choice;
+	  
+	  double GetCursorLat(void) { return m_pncdfDialog->m_cursor_lat; }
+	  double GetCursorLon(void) { return m_pncdfDialog->m_cursor_lon; }	
+
+	  double dlat, dlon, ddir, dfor;
+
+	  bool b_showODAS;
+
 private:
       bool LoadConfig(void);
       bool SaveConfig(void);
+
+	  int              m_position_menu_id;
 
       wxFileConfig     *m_pconfig;
       wxWindow         *m_parent_window;
@@ -98,6 +110,7 @@ private:
 
       int              m_ncdf_dialog_x, m_ncdf_dialog_y;
       int              m_ncdf_dialog_sx, m_ncdf_dialog_sy;
+	  
 
       bool              m_bncdfUseHiDef;
       bool              m_bncdfShowIcon;

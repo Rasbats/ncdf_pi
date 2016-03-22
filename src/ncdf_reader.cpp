@@ -12,7 +12,6 @@ ncdfReader::ncdfReader(MainDialog *md)
 	ncdfMessage.data = NULL;
 	ncdfMessage.bmpMask = NULL;
 	ncdfData = NULL;
-
 	
 	isReading = false;
 }
@@ -60,8 +59,7 @@ void ncdfReader::readncdfFile(ncdfDataMessage dataMessage)
 	ddt = dataMessage.dataDateTime;
 	
     wxString ls = ddt.Format(_T("%a %d %b %Y %H:%M"));
-	gui->m_staticTextDateTime->SetLabel(ls);	
-
+	gui->m_staticTextDateTime->SetLabel(ls);
 	gui->pPlugIn->GetncdfOverlayFactory()->reset();
 	gui->pPlugIn->GetncdfOverlayFactory()->setData(gui,
 							   dataMessage,

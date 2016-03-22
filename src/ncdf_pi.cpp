@@ -3,7 +3,7 @@
  *
  * Project:  OpenCPN
  * Purpose:  ncdf Plugin
- * Author:   David Register
+ * Author:   David Register, Mike Rossiter
  *
  ***************************************************************************
  *   Copyright (C) 2010 by David S. Register   *
@@ -56,9 +56,6 @@ extern "C" DECL_EXP void destroy_pi(opencpn_plugin* p)
 }
 
 
-
-
-
 //---------------------------------------------------------------------------------------------------------
 //
 //    ncdf PlugIn Implementation
@@ -66,8 +63,6 @@ extern "C" DECL_EXP void destroy_pi(opencpn_plugin* p)
 //---------------------------------------------------------------------------------------------------------
 
 #include "icons2.h"
-
-
 
 //---------------------------------------------------------------------------------------------------------
 //
@@ -84,7 +79,7 @@ ncdf_pi::ncdf_pi(void *ppimgr)
 
 int ncdf_pi::Init(void)
 {
-//      printf("ncdf_pi Init()\n");
+
       AddLocaleCatalog( _T("opencpn-ncdf_pi") );
 
       // Set some default private member parameters
@@ -94,6 +89,8 @@ int ncdf_pi::Init(void)
       m_ncdf_dialog_sy = 460;
       m_pncdfDialog = NULL;
       m_pncdfOverlayFactory = NULL;
+	  m_choice = 0;
+	  b_showODAS = false;
 
       ::wxDisplaySize(&m_display_width, &m_display_height);
 
@@ -116,9 +113,11 @@ int ncdf_pi::Init(void)
 
       m_pncdfOverlayFactory = new ncdfOverlayFactory;
 	  m_pncdfOverlayFactory->m_bReadyToRender=false;
-//      wxMenuItem *pmi = new wxMenuItem(NULL, -1, _("PlugIn Item"));
-//      int miid = AddCanvasContextMenuItem(pmi, (PlugInCallBackFunction )&s_ContextMenuCallback );
-//      SetCanvasContextMenuItemViz(miid, true);
+
+	  wxMenu dummy_menu;
+	  m_position_menu_id = AddCanvasContextMenuItem
+		  (new wxMenuItem(&dummy_menu, -1, _("Drop Tidal Arrow")), this);
+	  SetCanvasContextMenuItemViz(m_position_menu_id, true);
 
       return (WANTS_OVERLAY_CALLBACK |
            WANTS_OPENGL_OVERLAY_CALLBACK |
@@ -132,8 +131,6 @@ int ncdf_pi::Init(void)
 
 bool ncdf_pi::DeInit(void)
 {
-//      printf("ncdf_pi DeInit()\n");
-
       if(m_pncdfDialog)
       {
 		 m_pncdfOverlayFactory->m_bReadyToRender = false;
@@ -178,14 +175,14 @@ wxString ncdf_pi::GetCommonName()
 
 wxString ncdf_pi::GetShortDescription()
 {
-      return _("oNC PlugIn for OpenCPN");
+      return _("ncdf PlugIn for OpenCPN");
 }
 
 
 wxString ncdf_pi::GetLongDescription()
 {
-      return _("oNC PlugIn for OpenCPN\n\
-A template for surface current direction and speed.");
+      return _("ncdf PlugIn for OpenCPN\n\
+For surface current direction and speed.");
 
 }
 
@@ -198,12 +195,28 @@ void ncdf_pi::SetDefaults(void)
             m_bncdfShowIcon = true;
 
             m_leftclick_tool_id  = InsertPlugInTool(_T(""), _img_ncdf, _img_ncdf, wxITEM_NORMAL,
-                  _("oNC"), _T(""), NULL,
+                  _("ncdf"), _T(""), NULL,
                    ncdf_TOOL_POSITION, 0, this);
       }
 }
 
+void ncdf_pi::OnContextMenuItemCallback(int id)
+{
+	if (!m_pncdfDialog)
+		return;
 
+	if (id == m_position_menu_id)
+
+		m_pncdfDialog->m_cursor_lat = GetCursorLat();
+		m_pncdfDialog->m_cursor_lon = GetCursorLon();
+
+		wxString myLat = wxString::Format(wxT("%5.2f"), (double)m_pncdfDialog->m_cursor_lat);
+
+	if (m_pncdfDialog) {
+		m_pncdfDialog->OnContextMenu(m_pncdfDialog->m_cursor_lat, m_pncdfDialog->m_cursor_lon);
+	}
+
+}
 int ncdf_pi::GetToolbarToolCount(void)
 {
       return 1;
@@ -231,9 +244,15 @@ void ncdf_pi::OnncdfDialogClose()
 }
 
 bool ncdf_pi::RenderOverlay(wxDC &pmdc, PlugIn_ViewPort *vp)
-{
-      if(m_pncdfDialog && m_pncdfOverlayFactory)
-      {
+{    
+	
+	if (b_showODAS == true){
+		RenderOverlayArrow(&pmdc, vp);
+		return true;	
+	}
+		
+    if(m_pncdfDialog && m_pncdfOverlayFactory)
+    {
             if(m_pncdfOverlayFactory->isReadyToRender())
             {
                   m_pncdfOverlayFactory->RenderncdfOverlay ( pmdc, vp );
@@ -241,13 +260,19 @@ bool ncdf_pi::RenderOverlay(wxDC &pmdc, PlugIn_ViewPort *vp)
             }
             else
                   return false;
-      }
-      else
+    }
+    else
             return false;
+	
 }
 
 bool ncdf_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp)
 {
+	if (b_showODAS == true){
+		RenderOverlayArrow(NULL, vp);
+		return true;
+	}
+
 	if (m_pncdfDialog && m_pncdfOverlayFactory)
 	{
 		if (m_pncdfOverlayFactory->isReadyToRender())
@@ -262,6 +287,25 @@ bool ncdf_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp)
 		return false;
 }
 
+bool ncdf_pi::RenderOverlayArrow(wxDC *dc, PlugIn_ViewPort *vp)
+{
+	if (!m_pncdfDialog || !m_pncdfDialog->IsShown())
+		return false;
+	if (m_pncdfDialog && m_pncdfOverlayFactory)
+	{
+		for (std::list<Arrow*>::iterator it = m_pncdfDialog->m_ArrowList.begin();
+			it != m_pncdfDialog->m_ArrowList.end(); it++){
+
+			double myLat = (*it)->m_lat;
+			double myLon = (*it)->m_lon;
+			m_pncdfDialog->getCurrentData(myLat, myLon);
+			m_pncdfOverlayFactory->DrawAllCurrentsInViewPort(myLat, myLon, ddir, dfor, *dc, vp);
+		}
+	}
+
+	return true;
+
+}
 void ncdf_pi::SetCursorLatLon(double lat, double lon)
 {
       if(m_pncdfDialog)
@@ -293,6 +337,8 @@ bool ncdf_pi::LoadConfig(void)
             if((m_ncdf_dialog_y < 0) || (m_ncdf_dialog_y > m_display_height))
                   m_ncdf_dialog_y = 5;
 
+			pConf->Read(_T("AreaChoice"), &m_choice, 0);
+
             pConf->SetPath ( _T ( "/Directories" ) );
 			wxStandardPathsBase &std = wxStandardPathsBase::Get(); 
 			pConf->Read ( _T ( "ncdfDirectory" ), &m_ncdf_dir, std.GetDocumentsDir() );
@@ -318,6 +364,8 @@ bool ncdf_pi::SaveConfig(void)
             pConf->Write ( _T ( "ncdfDialogSizeY" ),  m_ncdf_dialog_sy );
             pConf->Write ( _T ( "ncdfDialogPosX" ),   m_ncdf_dialog_x );
             pConf->Write ( _T ( "ncdfDialogPosY" ),   m_ncdf_dialog_y );
+
+			pConf->Write(_T("AreaChoice"), m_choice);
 
             pConf->SetPath ( _T ( "/Directories" ) );
             pConf->Write ( _T ( "ncdfDirectory" ), m_ncdf_dir );

@@ -25,22 +25,23 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
 #ifndef ncdfOVERLAYFACTORY_H
 #define ncdfOVERLAYFACTORY_H
 
 #ifndef  WX_PRECOMP
   #include "wx/wx.h"
 #endif //precompiled headers
+
 #include <wx/dynarray.h>
-
 #include "ocpn_plugin.h"
-
 #include "ncdfdata.h"
 #include "wx/graphics.h"
 #include <gl/GL.h>
 #include <vector>
 #include "ncdf.h"
+#include <map>
+
+using namespace std;
 
 enum OVERLAP {_IN,_ON,_OUT};
 
@@ -72,6 +73,15 @@ public:
      void drawTransformedLine( wxPen pen, double si, double co,int di, int dj, int i,int j, int k,int l);
 	 void DrawGLLine(double x1, double y1, double x2, double y2, double width, wxColour myColour);
 	 void DrawOLBitmap(const wxBitmap &bitmap, wxCoord x, wxCoord y, bool usemask);
+	 void DrawAllCurrentsInViewPort(double dlat, double dlon, double ddir, double dfor, wxDC &myDC, PlugIn_ViewPort *myVP);
+
+	 void drawCurrentArrow(int x, int y, double rot_angle, double scale, double rate, wxDC &dc, PlugIn_ViewPort *vp);
+	 wxImage &DrawGLPolygon();
+	 void drawGLPolygons(ncdfOverlayFactory *pof, wxDC *dc,	PlugIn_ViewPort *vp, wxImage &imageLabel, double myLat, double myLon, int offset);
+	 void DrawGLLabels(ncdfOverlayFactory *pof, wxDC *dc, PlugIn_ViewPort *vp, wxImage &imageLabel, double myLat, double myLon, int offset);
+	 wxImage &DrawGLText(double value, int precision);
+	 wxImage &DrawGLTextDir(double value, int precision);
+	 wxImage &DrawGLTextString(wxString myText);
      void drawPetiteBarbule(wxDC *pmdc, wxPen pen, bool south,
                                double si, double co, int di, int dj, int b);
      void drawGrandeBarbule(wxDC *pmdc, wxPen pen, bool south,
@@ -103,13 +113,24 @@ private:
      
      wxBitmap		*m_pbm_current;
      Selection		*rect;
+	 
+	 
+	 //  for GL
+	 wxColour c_GLcolour;
+	 wxPoint p_basic[9];
 
 	 wxDC *m_pdc;
+	 wxDC *myDC;
+
+	 std::map < double, wxImage > m_labelCache;
+	 std::map < wxString, wxImage > m_labelCacheText;
+
 #if wxUSE_GRAPHICS_CONTEXT
 	 wxGraphicsContext *m_gdc;
 #endif
 	 bool m_hiDefGraphics;
 };
+
 
 
 #endif // ncdfOVERLAYFACTORY_H

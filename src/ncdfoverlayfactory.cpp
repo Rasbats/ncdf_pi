@@ -29,9 +29,18 @@
 #include "ncdfoverlayfactory.h"
 #include "ncdf.h"
 #include "IsoLine2.h"
-
 #include <wx/colour.h>
 #include <wx/dynarray.h>
+
+#ifdef __WXMSW__
+#define snprintf _snprintf
+#endif // __WXMSW__
+
+#define NUM_CURRENT_ARROW_POINTS 9
+static wxPoint CurrentArrowArray[NUM_CURRENT_ARROW_POINTS] = { wxPoint(0, 0), wxPoint(0, -10),
+wxPoint(55, -10), wxPoint(55, -25), wxPoint(100, 0), wxPoint(55, 25), wxPoint(55,
+10), wxPoint(0, 10), wxPoint(0, 0)};
+
 //----------------------------------------------------------------------------------------------------------
 //    ncdf Overlay Factory Implementation
 //----------------------------------------------------------------------------------------------------------
@@ -105,7 +114,6 @@ bool ncdfOverlayFactory::DoRenderncdfOverlay(PlugIn_ViewPort *vp )
     
     if(vp->view_scale_ppm != m_last_vp_scale)
     {
-           // ClearCachedData();
       if(vp->view_scale_ppm < 0.001135)
 	  m_space = space[0];
       else if(vp->view_scale_ppm <= 0.001135)
@@ -193,22 +201,14 @@ void ncdfOverlayFactory::RenderncdfCurrent()
 			  space = 20;
 
 		  GetGlobalColor(_T("UBLCK"), &colour);
-		 // g2data.ucurr[mi] = NAN;
-	  //wxMessageBox(_T("here"));
-	 // return;
+		
 		  if (g2data.ucurr[mi] != NULL && g2data.vcurr[mi] != NULL){
 			  GetCanvasPixLL(vp, &p, lat, lon);
 			  if (PointInLLBox(vp, lon, lat))
 			  {
-				 
-					  //double force = sqrt(ucurr[mi] * ucurr[mi] + vcurr[mi] * vcurr[mi])*3.6 / 1.852;
-					  double dir = 90. + (atan2(g2data.vcurr[mi], -g2data.ucurr[mi])  * 180. / PI);
-					  if (dir < 0) dir = 360 + dir;
-
-					 // wxMessageBox(_T("here"));
-					//  return;
-					  drawWaveArrow(p.x, p.y, dir - 90, colour);
-					
+				 double dir = 90. + (atan2(g2data.vcurr[mi], -g2data.ucurr[mi])  * 180. / PI);
+				 if (dir < 0) dir = 360 + dir;
+					  drawWaveArrow(p.x, p.y, dir - 90, colour);					
 			  }
 		  }
 	  }
@@ -217,7 +217,6 @@ void ncdfOverlayFactory::RenderncdfCurrent()
 
 bool ncdfOverlayFactory::RenderncdfCurrentBmp()
 {
-	//wxMessageBox(_T("here in bmp"));
 
 	static wxPoint porg;
       static int width, height;    
@@ -255,8 +254,7 @@ bool ncdfOverlayFactory::RenderncdfCurrentBmp()
 
 			      
 			      double **currentForce = (double **) g2data.vcurr;
-				  if (currentForce == NULL){
-					 // wxMessageBox(_T("null"));
+				  if (currentForce == NULL){					 
 					  return false;
 				  }
                               wxImage gr_image(width, height);
@@ -316,10 +314,8 @@ bool ncdfOverlayFactory::RenderncdfCurrentBmp()
                               m_pbm_current->SetMask(gr_mask);
 
                               ::wxEndBusyCursor();
-
                   }
             }
-
 
             if(m_pbm_current)
             {      
@@ -331,11 +327,9 @@ bool ncdfOverlayFactory::RenderncdfCurrentBmp()
 
 void ncdfOverlayFactory::drawWaveArrow(int i, int j, double ang, wxColour arrowColor)
 {
-      double si=sin(ang * PI / 180.),  co=cos(ang * PI / 180.);
+ double si=sin(ang * PI / 180.),  co=cos(ang * PI / 180.);
 
-		wxPen pen(arrowColor, 1);
-//wxMessageBox(_T("here in m_pdc"));
-//return;
+ wxPen pen(arrowColor, 1);
  if (m_pdc) {	
 	 
 		  m_pdc->SetPen(pen);
@@ -350,11 +344,6 @@ void ncdfOverlayFactory::drawWaveArrow(int i, int j, double ang, wxColour arrowC
 	  else
 		  glColor3ub(arrowColor.Red(), arrowColor.Green(), arrowColor.Blue());
 #endif
- /*
-      wxPen pen( arrowColor, 1);
-      pmdc->SetPen(pen);
-      pmdc->SetBrush(*wxTRANSPARENT_BRUSH);
-*/
       int arrowSize = 26;
       int dec = -arrowSize/2;
 
@@ -386,42 +375,6 @@ void ncdfOverlayFactory::drawTransformedLine( wxPen pen, double si, double co,in
 	  else{
 		  DrawGLLine(ii, jj, kk, ll, 0.5, colour);
 	  }
-
-	  /*
-#if wxUSE_GRAPHICS_CONTEXT
-     // if(0g_bncdfUseHiDef)
-      {
-       ;  if(m_pgc)
-            {
-                  m_pgc->SetPen(pen);
-                  m_pgc->StrokeLine(ii, jj, kk, ll);
-            }
-      }
-      else
-      {
-		  if (m_pdc){
-			  m_pdc->SetPen(pen);
-			  m_pdc->SetBrush(*wxTRANSPARENT_BRUSH);
-			  m_pdc->DrawLine(ii, jj, kk, ll);
-			  
-		  }
-		//  else{
-		//	 DrawGLLine(ii, jj, kk, ll, 1, colour);
-		//  }                  
-      }
-
-#else
-	  if (m_pdc){
-		  m_pdc->SetPen(pen);
-		  m_pdc->SetBrush(*wxTRANSPARENT_BRUSH);
-		  m_pdc->DrawLine(ii, jj, kk, ll);
-
-	  }
-	  else{
-		  DrawGLLine(ii, jj, kk, ll, 2, colour);
-	  }
-#endif
-*/
 }
 
 void ncdfOverlayFactory::DrawGLLine(double x1, double y1, double x2, double y2, double width, wxColour myColour)
@@ -522,6 +475,584 @@ void ncdfOverlayFactory::DrawOLBitmap(const wxBitmap &bitmap, wxCoord x, wxCoord
 			glPixelZoom(1, 1);
 		}
 	}
+}
+
+void ncdfOverlayFactory::DrawAllCurrentsInViewPort(double dlat, double dlon, double ddir, double dfor, wxDC &myDC, PlugIn_ViewPort *myVP)
+{
+	
+	if (myVP->chart_scale > 1000000){
+		return;
+	}
+
+	wxDC *m_dc = &myDC;
+
+	double rot_vp = myVP->rotation * 180 / M_PI;
+
+	// Set up the scaler
+	int mmx, mmy;
+	wxDisplaySizeMM(&mmx, &mmy);
+
+	int sx, sy;
+	wxDisplaySize(&sx, &sy);
+
+	double m_pix_per_mm = ((double)sx) / ((double)mmx);
+
+	int mm_per_knot = 10;
+	float current_draw_scaler = mm_per_knot * m_pix_per_mm * 100 / 100.0;
+
+	// End setting up scaler
+
+	float tcvalue, dir;
+
+	tcvalue = dfor;
+	dir = ddir;
+	
+	double lat, lon;
+
+	lat = dlat;
+	lon = dlon;
+
+	int pixxc, pixyc;
+	wxPoint cpoint;
+	GetCanvasPixLL(myVP, &cpoint, lat, lon);
+	
+	pixxc = cpoint.x;
+	pixyc = cpoint.y;
+
+
+	//    Adjust drawing size using logarithmic scale
+	double a1 = fabs(tcvalue) * 10;
+	a1 = wxMax(1.0, a1);      // Current values less than 0.1 knot
+	// will be displayed as 0
+	double a2 = log10(a1);
+	double scale = current_draw_scaler * a2;
+	
+	drawCurrentArrow(pixxc, pixyc, dir - 90 + rot_vp, scale / 100, tcvalue, myDC, myVP);
+	
+	int shift = 0;
+
+	if (!m_dc){
+
+		wxColour colour;
+		colour = GetSeaCurrentGraphicColor(tcvalue);
+		c_GLcolour = colour;  // for filling GL arrows
+
+		drawGLPolygons(this, m_dc, vp, DrawGLPolygon(), lat, lon, shift);
+	}
+
+	shift = 5;
+
+	if (!m_dc){		
+		
+		DrawGLLabels(this, m_dc, vp,  DrawGLText(fabs(tcvalue), 1), lat, lon, 0);
+		shift = 13;
+		
+		DrawGLLabels(this, m_dc,vp, DrawGLTextDir(dir, 0), lat, lon, shift);		
+	}
+
+	char sbuf[20];
+	
+	wxFont *pTCFont;
+	pTCFont = wxTheFontList->FindOrCreateFont(12, wxDEFAULT, wxNORMAL, wxBOLD, FALSE,
+		wxString(_T("Eurostile Extended")));
+
+	if (m_dc)
+	{
+		m_dc->SetFont(*pTCFont);
+		snprintf(sbuf, 19, "%3.1f", fabs(tcvalue));
+		m_dc->DrawText(wxString(sbuf, wxConvUTF8), pixxc, pixyc);
+		shift = 13;
+	}
+
+	if (m_dc)
+	{
+		snprintf(sbuf, 19, "%03.0f", dir);
+		m_dc->DrawText(wxString(sbuf, wxConvUTF8), pixxc, pixyc + shift);
+	}
+
+
+
+}
+
+void ncdfOverlayFactory::drawCurrentArrow(int x, int y, double rot_angle, double scale, double rate, wxDC &dc, PlugIn_ViewPort *vp)
+{
+	double m_rate = fabs(rate);
+	wxPoint p[9];
+
+	wxColour colour;
+	colour = GetSeaCurrentGraphicColor(m_rate);
+
+	c_GLcolour = colour;  // for filling GL arrows
+
+	wxPen pen(colour, 2);
+	wxBrush brush(colour);
+
+	myDC = &dc;
+
+	if (myDC) {
+		myDC->SetPen(pen);
+		myDC->SetBrush(brush);
+	}
+	
+
+	if (scale > 1e-2) {
+
+		float sin_rot = sin(rot_angle * PI / 180.);
+		float cos_rot = cos(rot_angle * PI / 180.);
+
+		// Move to the first point
+
+		float xt = CurrentArrowArray[0].x;
+		float yt = CurrentArrowArray[0].y;
+
+		float xp = (xt * cos_rot) - (yt * sin_rot);
+		float yp = (xt * sin_rot) + (yt * cos_rot);
+		int x1 = (int)(xp * scale);
+		int y1 = (int)(yp * scale);
+
+		p[0].x = x;
+		p[0].y = y;
+
+		p_basic[0].x = 100;
+		p_basic[0].y = 100;
+
+		// Walk thru the point list
+		for (int ip = 1; ip < NUM_CURRENT_ARROW_POINTS; ip++) {
+			xt = CurrentArrowArray[ip].x;
+			yt = CurrentArrowArray[ip].y;
+
+			float xp = (xt * cos_rot) - (yt * sin_rot);
+			float yp = (xt * sin_rot) + (yt * cos_rot);
+			int x2 = (int)(xp * scale);
+			int y2 = (int)(yp * scale);
+
+			p_basic[ip].x = 100 + x2;
+			p_basic[ip].y = 100 + y2;
+			
+			
+
+			if (myDC){
+				myDC->DrawLine(x1 + x, y1 + y, x2 + x, y2 + y);
+			}
+			else{
+				DrawGLLine(x1 + x, y1 + y, x2 + x, y2 + y, 2, colour);
+			}
+
+			p[ip].x = x1 + x;
+			p[ip].y = y1 + y;
+
+			x1 = x2;
+			y1 = y2;
+		}
+		
+		if (myDC){
+			myDC->SetBrush(brush);
+			myDC->DrawPolygon(9, p);
+		}
+		
+	}
+}
+
+wxImage &ncdfOverlayFactory::DrawGLPolygon(){
+
+	wxString labels;
+	labels = _T("");  // dummy label for drawing with
+
+	wxColour c_orange = c_GLcolour;
+
+	wxPen penText(c_orange);
+	wxBrush backBrush(c_orange);
+
+	wxMemoryDC mdc(wxNullBitmap);
+
+	wxFont mfont(9, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+	mdc.SetFont(mfont);
+
+	int w, h;
+	mdc.GetTextExtent(labels, &w, &h);
+
+	w = 200;
+	h = 200;
+
+	wxBitmap bm(w, h);
+	mdc.SelectObject(bm);
+	mdc.Clear();
+
+	mdc.SetPen(penText);
+	mdc.SetBrush(backBrush);
+	mdc.SetTextForeground(c_orange);
+	mdc.SetTextBackground(c_orange);
+
+	int xd = 0;
+	int yd = 0;
+
+	mdc.DrawPolygon(9, p_basic, 0);
+
+	mdc.SelectObject(wxNullBitmap);
+
+	m_labelCacheText[labels] = bm.ConvertToImage();
+
+	m_labelCacheText[labels].InitAlpha();
+
+	wxImage &image = m_labelCacheText[labels];
+
+	unsigned char *d = image.GetData();
+	unsigned char *a = image.GetAlpha();
+
+	w = image.GetWidth(), h = image.GetHeight();
+	for (int y = 0; y < h; y++)
+		for (int x = 0; x < w; x++) {
+			int r, g, b;
+			int ioff = (y * w + x);
+			r = d[ioff * 3 + 0];
+			g = d[ioff * 3 + 1];
+			b = d[ioff * 3 + 2];
+
+			a[ioff] = 255 - (r + g + b) / 3;
+		}
+
+	return m_labelCacheText[labels];
+
+}
+void ncdfOverlayFactory::drawGLPolygons(ncdfOverlayFactory *pof, wxDC *dc,
+	PlugIn_ViewPort *vp, wxImage &imageLabel, double myLat, double myLon, int offset)
+{
+
+	//---------------------------------------------------------
+	// Ecrit les labels
+	//---------------------------------------------------------
+
+	wxPoint ab;
+	GetCanvasPixLL(vp, &ab, myLat, myLon);
+
+	wxPoint cd;
+	GetCanvasPixLL(vp, &cd, myLat, myLon);
+
+	int w = imageLabel.GetWidth();
+	int h = imageLabel.GetHeight();
+
+	int label_offset = 0;
+	int xd = (ab.x + cd.x - (w + label_offset * 2)) / 2;
+	int yd = (ab.y + cd.y - h) / 2 + offset;
+
+	if (dc) {
+		/* don't use alpha for isobars, for some reason draw bitmap ignores
+		the 4th argument (true or false has same result) */
+		wxImage img(w, h, imageLabel.GetData(), true);
+		dc->DrawBitmap(img, xd, yd, false);
+	}
+	else { /* opengl */
+
+		int w = imageLabel.GetWidth(), h = imageLabel.GetHeight();
+
+		unsigned char *d = imageLabel.GetData();
+		unsigned char *a = imageLabel.GetAlpha();
+
+		unsigned char mr, mg, mb;
+		if (!imageLabel.GetOrFindMaskColour(&mr, &mg, &mb) && !a) wxMessageBox(_T(
+			"trying to use mask to draw a bitmap without alpha or mask\n"));
+
+		unsigned char *e = new unsigned char[4 * w * h];
+		{
+			for (int y = 0; y < h; y++)
+				for (int x = 0; x < w; x++) {
+					unsigned char r, g, b;
+					int off = (y * imageLabel.GetWidth() + x);
+					r = d[off * 3 + 0];
+					g = d[off * 3 + 1];
+					b = d[off * 3 + 2];
+
+					e[off * 4 + 0] = r;
+					e[off * 4 + 1] = g;
+					e[off * 4 + 2] = b;
+
+					e[off * 4 + 3] =
+						a ? a[off] : ((r == mr) && (g == mg) && (b == mb) ? 0 : 255);
+				}
+		}
+
+		glColor4f(1, 1, 1, 1);
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glRasterPos2i(xd, yd);
+		glPixelZoom(1, -1);
+		glDrawPixels(w, h, GL_RGBA, GL_UNSIGNED_BYTE, e);
+		glPixelZoom(1, 1);
+		glDisable(GL_BLEND);
+
+		delete[](e);
+
+	}
+
+
+}
+
+void ncdfOverlayFactory::DrawGLLabels(ncdfOverlayFactory *pof, wxDC *dc,
+	PlugIn_ViewPort *vp, wxImage &imageLabel, double myLat, double myLon, int offset)
+{
+
+	//---------------------------------------------------------
+	// Ecrit les labels
+	//---------------------------------------------------------
+
+	wxPoint ab;
+	GetCanvasPixLL(vp, &ab, myLat, myLon);
+
+	wxPoint cd;
+	GetCanvasPixLL(vp, &cd, myLat, myLon);
+
+	int w = imageLabel.GetWidth();
+	int h = imageLabel.GetHeight();
+
+	int label_offset = 0;
+	int xd = (ab.x + cd.x - (w + label_offset * 2)) / 2;
+	int yd = (ab.y + cd.y - h) / 2 + offset;
+
+	if (dc) {
+		/* don't use alpha for isobars, for some reason draw bitmap ignores
+		the 4th argument (true or false has same result) */
+		wxImage img(w, h, imageLabel.GetData(), true);
+		dc->DrawBitmap(img, xd, yd, false);
+	}
+	else { /* opengl */
+
+		int w = imageLabel.GetWidth(), h = imageLabel.GetHeight();
+
+		unsigned char *d = imageLabel.GetData();
+		unsigned char *a = imageLabel.GetAlpha();
+
+		unsigned char mr, mg, mb;
+		if (!imageLabel.GetOrFindMaskColour(&mr, &mg, &mb) && !a) wxMessageBox(_T(
+			"trying to use mask to draw a bitmap without alpha or mask\n"));
+
+		unsigned char *e = new unsigned char[4 * w * h];
+		{
+			for (int y = 0; y < h; y++)
+				for (int x = 0; x < w; x++) {
+					unsigned char r, g, b;
+					int off = (y * imageLabel.GetWidth() + x);
+					r = d[off * 3 + 0];
+					g = d[off * 3 + 1];
+					b = d[off * 3 + 2];
+
+					e[off * 4 + 0] = r;
+					e[off * 4 + 1] = g;
+					e[off * 4 + 2] = b;
+
+					e[off * 4 + 3] =
+						a ? a[off] : ((r == mr) && (g == mg) && (b == mb) ? 0 : 255);
+				}
+		}
+
+		glColor4f(1, 1, 1, 1);
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glRasterPos2i(xd, yd);
+		glPixelZoom(1, -1);
+		glDrawPixels(w, h, GL_RGBA, GL_UNSIGNED_BYTE, e);
+		glPixelZoom(1, 1);
+		glDisable(GL_BLEND);
+
+		delete[](e);
+
+	}
+
+
+}
+
+
+wxImage &ncdfOverlayFactory::DrawGLText(double value, int precision){
+
+	wxString labels;
+
+	int p = precision;
+
+	labels.Printf(_T("%.*f"), p, value);
+
+	wxMemoryDC mdc(wxNullBitmap);
+
+	wxFont *pTCFont;
+	pTCFont = wxTheFontList->FindOrCreateFont(12, wxDEFAULT, wxNORMAL, wxBOLD, FALSE,
+		wxString(_T("Eurostile Extended")));
+	mdc.SetFont(*pTCFont);
+
+	int w, h;
+	mdc.GetTextExtent(labels, &w, &h);
+
+	int label_offset = 10;   //5
+
+	wxBitmap bm(w + label_offset * 2, h + 1);
+	mdc.SelectObject(bm);
+	mdc.Clear();
+
+	wxColour text_color;
+
+	GetGlobalColor(_T("UINFD"), &text_color);
+	wxPen penText(text_color);
+	mdc.SetPen(penText);
+
+	mdc.SetBrush(*wxTRANSPARENT_BRUSH);
+	mdc.SetTextForeground(text_color);
+	mdc.SetTextBackground(wxTRANSPARENT);
+
+	int xd = 0;
+	int yd = 0;
+
+	mdc.DrawText(labels, label_offset + xd, yd + 1);
+
+	mdc.SelectObject(wxNullBitmap);
+
+	m_labelCache[value] = bm.ConvertToImage();
+
+	m_labelCache[value].InitAlpha();
+
+	wxImage &image = m_labelCache[value];
+
+	unsigned char *d = image.GetData();
+	unsigned char *a = image.GetAlpha();
+
+	w = image.GetWidth(), h = image.GetHeight();
+	for (int y = 0; y < h; y++)
+		for (int x = 0; x < w; x++) {
+			int r, g, b;
+			int ioff = (y * w + x);
+			r = d[ioff * 3 + 0];
+			g = d[ioff * 3 + 1];
+			b = d[ioff * 3 + 2];
+
+			a[ioff] = 255 - (r + g + b) / 3;
+		}
+
+	return m_labelCache[value];
+}
+
+wxImage &ncdfOverlayFactory::DrawGLTextDir(double value, int precision){
+
+	wxString labels;
+
+	int p = precision;
+
+	labels.Printf(_T("%03.*f"), p, value);
+
+	wxMemoryDC mdc(wxNullBitmap);
+
+	wxFont *pTCFont;
+	pTCFont = wxTheFontList->FindOrCreateFont(12, wxDEFAULT, wxNORMAL, wxBOLD, FALSE,
+		wxString(_T("Eurostile Extended")));
+
+	mdc.SetFont(*pTCFont);
+
+	int w, h;
+	mdc.GetTextExtent(labels, &w, &h);
+
+	int label_offset = 10;   //5
+
+	wxBitmap bm(w + label_offset * 2, h + 1);
+	mdc.SelectObject(bm);
+	mdc.Clear();
+
+	wxColour text_color;
+
+	GetGlobalColor(_T("UINFD"), &text_color);
+	wxPen penText(text_color);
+	mdc.SetPen(penText);
+
+	mdc.SetBrush(*wxTRANSPARENT_BRUSH);
+	mdc.SetTextForeground(text_color);
+	mdc.SetTextBackground(wxTRANSPARENT);
+
+	int xd = 0;
+	int yd = 0;
+
+	mdc.DrawText(labels, label_offset + xd, yd + 1);
+
+	mdc.SelectObject(wxNullBitmap);
+
+	m_labelCache[value] = bm.ConvertToImage();
+
+	m_labelCache[value].InitAlpha();
+
+	wxImage &image = m_labelCache[value];
+
+	unsigned char *d = image.GetData();
+	unsigned char *a = image.GetAlpha();
+
+	w = image.GetWidth(), h = image.GetHeight();
+	for (int y = 0; y < h; y++)
+		for (int x = 0; x < w; x++) {
+			int r, g, b;
+			int ioff = (y * w + x);
+			r = d[ioff * 3 + 0];
+			g = d[ioff * 3 + 1];
+			b = d[ioff * 3 + 2];
+
+			a[ioff] = 255 - (r + g + b) / 3;
+		}
+
+	return m_labelCache[value];
+}
+
+wxImage &ncdfOverlayFactory::DrawGLTextString(wxString myText){
+
+	wxString labels;
+	labels = myText;
+
+	wxMemoryDC mdc(wxNullBitmap);
+
+	wxFont *pTCFont;
+	pTCFont = wxTheFontList->FindOrCreateFont(12, wxDEFAULT, wxNORMAL, wxBOLD, FALSE,
+		wxString(_T("Eurostile Extended")));
+	mdc.SetFont(*pTCFont);
+
+	int w, h;
+	mdc.GetTextExtent(labels, &w, &h);
+
+	int label_offset = 10;   //5
+
+	wxBitmap bm(w + label_offset * 2, h + 1);
+	mdc.SelectObject(bm);
+	mdc.Clear();
+
+	wxColour text_color;
+
+	GetGlobalColor(_T("UINFD"), &text_color);
+	wxPen penText(text_color);
+	mdc.SetPen(penText);
+
+	mdc.SetBrush(*wxTRANSPARENT_BRUSH);
+	mdc.SetTextForeground(text_color);
+	mdc.SetTextBackground(wxTRANSPARENT);
+
+	int xd = 0;
+	int yd = 0;
+
+	mdc.DrawText(labels, label_offset + xd, yd + 1);
+	mdc.SelectObject(wxNullBitmap);
+
+	m_labelCacheText[myText] = bm.ConvertToImage();
+
+	m_labelCacheText[myText].InitAlpha();
+
+	wxImage &image = m_labelCacheText[myText];
+
+	unsigned char *d = image.GetData();
+	unsigned char *a = image.GetAlpha();
+
+	w = image.GetWidth(), h = image.GetHeight();
+	for (int y = 0; y < h; y++)
+		for (int x = 0; x < w; x++) {
+			int r, g, b;
+			int ioff = (y * w + x);
+			r = d[ioff * 3 + 0];
+			g = d[ioff * 3 + 1];
+			b = d[ioff * 3 + 2];
+
+			a[ioff] = 255 - (r + g + b) / 3;
+		}
+
+	return m_labelCacheText[myText];
 }
 
 void ncdfOverlayFactory::drawPetiteBarbule(wxDC *pmdc, wxPen pen, bool south,

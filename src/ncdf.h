@@ -29,19 +29,35 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include <netcdf.h>
+#include <list>
 
-/* We are reading 3D data, a 48 x 70 x 140 time-lat-lon grid. */
 #define NDIMS 3
 #define NTIME 192	
-#define NLAT 105	
-#define NLON 315
 
-#define NLATIS 175	
+#define NLATEC 105	
+#define NLONEC 315
+
+#define NLATIS 210	
 #define NLONIS 245
 
 #define NLATSB 70	
-#define NLONSB 105
+#define NLONSB 175
 
+#define NLATNS 175	
+#define NLONNS 260
+
+#define NLATBS 140	
+#define NLONBS 315
+
+#define NLATWI 210	
+#define NLONWI 140
+
+#define EC 0
+#define IS 1
+#define SB 2
+#define NS 3
+#define BS 4
+#define WI 5
 
 #define LAT_NAME "latitude"
 #define LON_NAME "longitude"
@@ -51,8 +67,6 @@
 
 #define ERR(e) { printf("Error: %s\n", nc_strerror(e)); return 2; }
 
-using namespace std;
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // main application frame declaration
@@ -61,13 +75,13 @@ using namespace std;
 #define PI        3.1415926535897931160E0      /* pi */
 #endif
 
+using namespace std;
+
 struct treeItems
 {
 	long startDate;
 	int stepRange[192];
 	int numberOfItems;
-	//wxDateTime dateTimes[192];
-	//int stepTimes[192];
 	int messageCount;
 };
 
@@ -81,6 +95,7 @@ struct Selection
 
 class ncdf_pi;
 class ncdfDataMessage;
+class Arrow;
 
 class MainDialog : public ncdfDialog {
 public:
@@ -113,10 +128,16 @@ public:
 	int ncdf_get_ncdf1();
 	double** makeGridDataCURRENT(ncdfDataMessage message, wxString current);
 	int np;
+	void OnContextMenu(double m_lat, double m_lon);
+	void MainDialog::BuildHelpPage();
+	void getCurrentData(double lat, double lon);
+	std::list<Arrow*> m_ArrowList;
 
 private:
 	void UpdateTrackingControls();
 	void printCurrentData();
+	
+	
 	
 	wxString toBeaufort(wxFloat32 w);
 	wxLogWindow *log_window_m;
@@ -129,6 +150,7 @@ protected:
 	virtual void onCloseDialog( wxCloseEvent& event );
 	virtual void OnExitClick( wxCommandEvent& event );
 	virtual void onFileButtonClick(wxCommandEvent& event);
+	virtual void onAreaChange(wxCommandEvent& event);
 	virtual void onPrev(wxCommandEvent& event);
 	virtual void onNext(wxCommandEvent& event);
 
@@ -143,7 +165,7 @@ protected:
 	void fillDirTree(wxString dir, bool start, wxTreeItemId id);
 	void addChildren(wxTreeItemId id, wxString s);
 	void readData(wxTreeItemId itemId);
-
+	
 };
 
 class MyTreeItemData : public wxTreeItemData
@@ -155,6 +177,17 @@ public:
 	ncdfDataMessage myData;
 	wxUint32 hour;
 	wxDateTime dt;
+};
+
+
+class Arrow
+{
+public:
+	double m_dir;
+	double m_force;
+	double m_lat;
+	double m_lon;
+
 };
 
 #endif //__main__

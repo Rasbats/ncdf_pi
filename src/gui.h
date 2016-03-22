@@ -76,6 +76,7 @@ class ncdfDialog : public wxDialog
 		wxStaticText* m_staticText40;
 		wxStaticText* m_staticText41;
 		wxPanel* m_panel2;
+		wxStaticText* m_staticText6;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void onCloseDialog( wxCloseEvent& event ) { event.Skip(); }
@@ -83,6 +84,7 @@ class ncdfDialog : public wxDialog
 		virtual void onPageChanged( wxNotebookEvent& event ) { event.Skip(); }
 		virtual void onDirChanged( wxCommandEvent& event ) { event.Skip(); }
 		virtual void onFileButtonClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void onAreaChange(wxCommandEvent& event) { event.Skip(); }
 		virtual void onTreeItemRightClick( wxTreeEvent& event ) { event.Skip(); }
 		virtual void onTreeSelectionChanged( wxTreeEvent& event ) { event.Skip(); }
 		virtual void onDCurrentClick( wxCommandEvent& event ) { event.Skip(); }
@@ -103,9 +105,8 @@ class ncdfDialog : public wxDialog
 		wxCheckBox* m_checkBoxBmpCurrentForce;
 		wxTextCtrl* m_textCtrlCurrentForce;
 		
-		ncdfDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("ncdfDialog"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 270,460 ), long style =wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
-		~ncdfDialog();
-	
+		ncdfDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("ncdf"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 270,460 ), long style =wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		~ncdfDialog();	
 };
 
 #endif //__gui__
