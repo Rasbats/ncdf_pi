@@ -71,7 +71,7 @@ FIND_PACKAGE(Gettext REQUIRED)
 
 
 
-# For convenience we define the sources as a variable. You can add 
+# For convenience we define the sources as a variable. You can add
 # header files and cpp/c files and CMake will sort them out
 
 
@@ -108,7 +108,7 @@ IF(UNIX AND NOT APPLE)
 	IF(NOT MYNETCDF)
 	  MESSAGE(SEND_ERROR "Cannot find library xxxxlib.so")
 	ENDIF(NOT MYNETCDF)
-	   	
+
       target_link_libraries( ${PACKAGE_NAME} ${MYNETCDF})
 
       IF(NOT DEFINED PREFIX_PLUGINS)
@@ -118,3 +118,7 @@ IF(UNIX AND NOT APPLE)
       INSTALL(TARGETS ${PACKAGE_NAME} RUNTIME LIBRARY DESTINATION ${PREFIX_PLUGINS})
 ENDIF(UNIX AND NOT APPLE)
 
+
+INCLUDE("cmake/PluginInstall.cmake")
+INCLUDE("cmake/PluginLocalization.cmake")
+INCLUDE("cmake/PluginPackage.cmake")
