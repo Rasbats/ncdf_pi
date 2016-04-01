@@ -20,7 +20,9 @@ Compiled plugin in the releases folder.
 
 Compiling (Linux)
 ==================
-The plugin can be built standalone.
+
+Install the package libnetcdf-dev (plus associated packages)
+
 * clone the plugin repository from github
 
 Build:
