@@ -71,8 +71,6 @@ FIND_PACKAGE(Gettext REQUIRED)
 
 
 
-    
-
 # For convenience we define the sources as a variable. You can add 
 # header files and cpp/c files and CMake will sort them out
 
@@ -98,8 +96,6 @@ SET(SRC_ncdf
 )
 ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_ncdf})
 
-
-
 TARGET_LINK_LIBRARIES( ${PACKAGE_NAME} ${wxWidgets_LIBRARIES})
 
 IF(APPLE)
@@ -107,8 +103,16 @@ IF(APPLE)
 ENDIF(APPLE)
 
 IF(UNIX AND NOT APPLE)
+      ## Link libraries
+	FIND_FILE(MYNETCDF libnetcdf.so /usr/lib)
+	IF(NOT MYNETCDF)
+	  MESSAGE(SEND_ERROR "Cannot find library xxxxlib.so")
+	ENDIF(NOT MYNETCDF)
+	   	
+      target_link_libraries( ${PACKAGE_NAME} ${MYNETCDF})
+
       IF(NOT DEFINED PREFIX_PLUGINS)
-            SET(PREFIX_PLUGINS /usr/local/lib/opencpn)
+            SET(PREFIX_PLUGINS /usr/lib/opencpn)
       ENDIF(NOT DEFINED PREFIX_PLUGINS)
 
       INSTALL(TARGETS ${PACKAGE_NAME} RUNTIME LIBRARY DESTINATION ${PREFIX_PLUGINS})

@@ -1,0 +1,863 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: grib_pi 2.2.1207\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-17 10:33+0100\n"
+"PO-Revision-Date: 2010-12-20 18:23+0200\n"
+"Last-Translator: ΓΙΑΝΝΗΣ <ogog1@otenet.gr>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+#
+msgid "      < 0.5 knots"
+msgstr ""
+#
+#, c-format
+msgid " width = %d height = %d\n"
+msgstr ""
+#
+#, c-format
+msgid " x = %d y = %d\n"
+msgstr ""
+#
+msgid ">= 0.5 and < 1.5"
+msgstr ""
+#
+msgid ">= 1.5 and < 2.5"
+msgstr ""
+#
+msgid ">= 2.5 and < 3.5"
+msgstr ""
+#
+msgid ">= 3.5 knots    "
+msgstr ""
+#
+msgid "About Tidal Arrows"
+msgstr ""
+#
+msgid "Cancel"
+msgstr ""
+#
+msgid "Date/Time"
+msgstr ""
+#
+msgid "Display tidal direction"
+msgstr ""
+#
+msgid "Display tidal rates (knots)"
+msgstr ""
+#
+msgid "Fill Colour"
+msgstr ""
+#
+msgid "Help"
+msgstr ""
+#
+msgid "Next"
+msgstr ""
+#
+msgid "Now"
+msgstr ""
+#
+msgid "OK"
+msgstr ""
+#
+#
+#
+#, fuzzy
+msgid "Preferences"
+msgstr "Ιδιότητες GRIB"
+#
+msgid "Previous"
+msgstr ""
+#
+msgid "START Date/Time"
+msgstr ""
+#
+msgid "Select"
+msgstr ""
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+msgid "Select a folder"
+msgstr "Διάλεξε φάκελο αρχείων GRIB"
+#
+msgid "Select date/time for current prediction"
+msgstr ""
+#
+msgid "Step (Minutes)"
+msgstr ""
+#
+msgid ""
+"Tidal Current\n"
+"--------------------------------------------------------------\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"Use this data with caution.\n"
+"Use in conjunction with Tidal Current Atlases and Tidal Diamonds\n"
+"\n"
+"--------------------------------------------------------------------\n"
+"\n"
+"Note: 1 Rates shown are for a position corresponding to the centre\n"
+"of the base of the arrow. Tidal rate is shown as knots.\n"
+"\n"
+msgstr ""
+#
+#
+#, fuzzy
+msgid "Tidal Current Arrow Colour"
+msgstr "Έλεγχος Εμφάνησης GRIB"
+#
+#
+#, fuzzy
+msgid "Tidal Current Control"
+msgstr "Έλεγχος Εμφάνησης GRIB"
+#
+msgid "Tidal Data Folder"
+msgstr ""
+#
+msgid "Tide Calendar"
+msgstr ""
+#
+msgid "Time:"
+msgstr ""
+#
+msgid "Using Tide/Current data from:  "
+msgstr ""
+#
+#
+#, fuzzy
+msgid "otcurrent"
+msgstr "Τρέχουσα Ταχύτητα, Kts. "
+#
+#
+#, fuzzy
+msgid "otcurrent PlugIn for OpenCPN"
+msgstr "Επιπρόσθετο GRIB για το OpenCPN"
+#
+msgid ""
+"otcurrent PlugIn for OpenCPN\n"
+"Provides an overlay of Tidal Current (Stream) Arrows.\n"
+"\n"
+"\t\t\t   "
+msgstr ""
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+msgid "otcurrent Settings"
+msgstr "Ιδιότητες GRIB"
+#
+#
+#
+#
+#, fuzzy
+msgid "otcurrentDialogPosX"
+msgstr "Τρέχουσα Ταχύτητα, Kts. "
+#
+#
+#
+#
+#, fuzzy
+msgid "otcurrentDialogPosY"
+msgstr "Τρέχουσα Ταχύτητα, Kts. "
+#
+#
+#, fuzzy
+msgid "otcurrentDialogSizeX"
+msgstr "Τρέχουσα Ταχύτητα, Kts. "
+#
+#
+#, fuzzy
+msgid "otcurrentDialogSizeY"
+msgstr "Τρέχουσα Ταχύτητα, Kts. "
+#
+#
+#
+#
+#, fuzzy
+msgid "otcurrentFolder"
+msgstr "Τρέχουσα Ταχύτητα, Kts. "
+#
+#
+#
+#, fuzzy
+msgid "otcurrentInterval"
+msgstr "Τρέχουσα Ταχύτητα, Kts. "
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+msgid "otcurrentUseDirection"
+msgstr "Ιδιότητες GRIB"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+msgid "otcurrentUseFillColour"
+msgstr "Ιδιότητες GRIB"
+#
+#
+#
+#, fuzzy
+msgid "otcurrentUseRate"
+msgstr "Τρέχουσα Ταχύτητα, Kts. "
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "/Settings/otcurrent"
+#~ msgstr "Τρέχουσα Ταχύτητα, Kts. "
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Colors"
+#~ msgstr "&Κλείσιμο"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Current"
+#~ msgstr "Τρέχουσα Ταχύτητα, Kts. "
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Data Display Preferences"
+#~ msgstr "Ιδιότητες GRIB"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "GRIB"
+#~ msgstr "GRIB"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "GRIB File Directory"
+#~ msgstr "Φάκελος Αρχείων GRIB"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "Grib"
+#~ msgstr "Grib"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view invisible overlays:"
+#~ msgstr "Παρακαλώ μεγένθυνε ή σμίκρυνε για να δείς καλυμμένα HTSGW GRIB"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view suppressed Air Temp.(2m) GRIB"
+#~ msgstr "Παρακαλώ μεγένθυνε ή σμίκρυνε για να δείς καλυμμένα SEATEMP GRIB"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view suppressed CURRENT GRIB"
+#~ msgstr ""
+#~ "Παρακαλώ μεγένθυνε ή σμίκρυνε για να δείς καλυμμένα OCEAN CURRENT GRIB"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view suppressed Clouds Cover GRIB"
+#~ msgstr ""
+#~ "Παρακαλώ μεγένθυνε ή σμίκρυνε για να δείς καλυμμένα OCEAN CURRENT GRIB"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view suppressed Sea Surf.Temp. GRIB"
+#~ msgstr "Παρακαλώ μεγένθυνε ή σμίκρυνε για να δείς καλυμμένα SEATEMP GRIB"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view suppressed Total Rainfall GRIB"
+#~ msgstr "Παρακαλώ μεγένθυνε ή σμίκρυνε για να δείς καλυμμένα CRAIN GRIB"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Pressure"
+#~ msgstr "Ατμ. Πίεση, mBar"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Pressure (MSL)"
+#~ msgstr "Ατμ. Πίεση, mBar"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Sea Temp"
+#~ msgstr "Θερμοκρασία Επιφανείας, C "
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "Show GRIB icon"
+#~ msgstr "Δείξε εικόνα GRIB"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Sign.Wave Height"
+#~ msgstr "Διακριτό ύψος Κύματος, m(μέτρα) "
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "Use High Definition Graphics"
+#~ msgstr "Χρησιμοποίησε Γραφικά Υψηλής Ευκρίνιας"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "WARNING:  QuickScat GRIB data is %d hours old."
+#~ msgstr ""
+#~ "ΠΡΟΣΟΧΗ:  Τα στοιχεία του αρχείου GRIB από το QuickScat είναι  %d  Ώρες "
+#~ "παλιά."
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Wind Direction(10m)"
+#~ msgstr "Διεύθυνση Ανέμου"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Wind Speed and Direction(10m)"
+#~ msgstr "Διεύθυνση Ανέμου"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Wind Speed(10m)"
+#~ msgstr "Ταχύτητα Ανέμου, Kts"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "Wind Speed, Kts."
+#~ msgstr "Ταχύτητα Ανέμου, Kts"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "tcdata"
+#~ msgstr "Στοιχεία GRIB"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid ""
+#~ "tcurrent PlugIn for OpenCPN\n"
+#~ "Provides basic tcurrent file overlay capabilities for several tcurrent "
+#~ "file types.\n"
+#~ "\n"
+#~ "Supported tcurrent file types include:\n"
+#~ "- wind direction and speed\n"
+#~ "- significant wave height\n"
+#~ "- sea surface temperature\n"
+#~ "- surface current direction and speed."
+#~ msgstr ""
+#~ "Επιπρόσθετο GRIB για το OpenCPN\n"
+#~ "Παρέχει Δυνατότητες εμφάνησης αρχείων GRIB για διάφορα αρχεία GRIB.\n"
+#~ "\n"
+#~ "Οι υποστηριζόμενοι τύποι αρχείων GRIB περιλαμβάνουν:\n"
+#~ "-  κατεύθυνση και ταχύτητα ανέμου\n"
+#~ "-  διακριτό ύψος κύματος\n"
+#~ "-  Θερμοκρασία Επιφανείας\n"
+#~ "-  επίκαιρη επιφανειακή κατεύθυνση και ταχύτητα."

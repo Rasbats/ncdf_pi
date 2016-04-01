@@ -26,30 +26,30 @@
 #include <vector>
 #include <wx/dirdlg.h>
 
-#include <stdio.h> 
+#include <stdio.h>
 #include <stdlib.h>
-#include <netcdf.h>
+#include <netcdfcpp.h>
 #include <list>
 
 #define NDIMS 3
-#define NTIME 192	
+#define NTIME 192
 
-#define NLATEC 105	
+#define NLATEC 105
 #define NLONEC 315
 
-#define NLATIS 210	
+#define NLATIS 210
 #define NLONIS 245
 
-#define NLATSB 70	
+#define NLATSB 70
 #define NLONSB 175
 
-#define NLATNS 175	
+#define NLATNS 175
 #define NLONNS 260
 
-#define NLATBS 140	
+#define NLATBS 140
 #define NLONBS 315
 
-#define NLATWI 210	
+#define NLATWI 210
 #define NLONWI 140
 
 #define EC 0
@@ -65,8 +65,7 @@
 #define V_NAME "v"
 #define U_NAME "u"
 
-#define ERR(e) { printf("Error: %s\n", nc_strerror(e)); return 2; }
-
+#define ERR(e) { return 2; }
 
 ////////////////////////////////////////////////////////////////////////////////
 // main application frame declaration
@@ -76,6 +75,7 @@
 #endif
 
 using namespace std;
+
 
 struct treeItems
 {
@@ -101,12 +101,12 @@ class MainDialog : public ncdfDialog {
 public:
 	MainDialog( wxWindow *parent );
 	virtual ~MainDialog();
-	
+
 	ncdfReader 	*my_ncdfReader;
-	
+
 	void SetCursorLatLon(double lat, double lon);
 	void setPlugIn(ncdf_pi *p);
-	
+
 	ncdf_pi	*pPlugIn;
 	wxWindow	*m_parent;
 	Selection	selectionRectangle;
@@ -118,31 +118,31 @@ public:
 	double** gridu;
 	double** gridv;
 
-	
+
 	ncdfDataMessage myncdfData, myData, myMessage;
 	vector<ncdfDataMessage> myDataVector;
 	int ncdf_get_data(wxString filestr);
-	int MainDialog::ncdf_get_keys(wxString filestr);
-	int MainDialog::nc_get(wxString filestr);
+	int ncdf_get_keys(wxString filestr);
+	int nc_get(wxString filestr);
 
 	int ncdf_get_ncdf1();
 	double** makeGridDataCURRENT(ncdfDataMessage message, wxString current);
 	int np;
 	void OnContextMenu(double m_lat, double m_lon);
-	void MainDialog::BuildHelpPage();
+	void BuildHelpPage();
 	void getCurrentData(double lat, double lon);
 	std::list<Arrow*> m_ArrowList;
 
 private:
 	void UpdateTrackingControls();
 	void printCurrentData();
-	
-	
-	
+
+
+
 	wxString toBeaufort(wxFloat32 w);
 	wxLogWindow *log_window_m;
 
-	
+
 
 protected:
 	// protected event handlers
@@ -165,14 +165,14 @@ protected:
 	void fillDirTree(wxString dir, bool start, wxTreeItemId id);
 	void addChildren(wxTreeItemId id, wxString s);
 	void readData(wxTreeItemId itemId);
-	
+
 };
 
 class MyTreeItemData : public wxTreeItemData
 {
 public:
 	MyTreeItemData(wxDateTime *dt, wxUint32 hour, ncdfDataMessage *myData, wxString *myFile);
-	
+
 	wxString myFile;
 	ncdfDataMessage myData;
 	wxUint32 hour;

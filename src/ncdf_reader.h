@@ -87,7 +87,7 @@ struct message
 	wxUint8		productionState;
 	wxUint8		dataType;
 	// end Secstor 1
-	wxUint16	templateNo3;	
+	wxUint16	templateNo3;
 	wxUint32	noSectors;
 	wxUint32	noPointsParallel;
 	wxUint32	noPointsMeridian;
@@ -134,17 +134,17 @@ class ncdfReader {
 public:
 	ncdfReader(MainDialog *dlg);
 	~ncdfReader();
-	
+
 	void readncdfFile(ncdfDataMessage dataMessage);
-	
-	
-	ncdfData *ncdfData;
-	ncdfMessage ncdfMessage;
+
+
+	ncdfData *ncdfData1;
+	ncdfMessage ncdfMessage1;
 	ncdfDataMessage ncdf2DataMessage;
 	bool isReading;
 	bool gotData = false;
-	
-	
+
+
 private:
 	MainDialog *gui;
 	double **gridu;

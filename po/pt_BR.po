@@ -1,0 +1,796 @@
+# OPENCPN TRANSLATION TO BRAZILIAN PORTUGUESE.
+# Copyright (C) 2000-2010 The OpenCPN Authors
+# This file is distributed under the same license as the PACKAGE package.
+# ELOI BARROS<eloibarros@hotmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: opencpn 2.1.0b620\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-17 10:33+0100\n"
+"PO-Revision-Date: 2010-06-25 19:44-0300\n"
+"Last-Translator: Eloi Barros <eloibarros@hotmail.com>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: BRAZIL\n"
+"X-Poedit-SourceCharset: utf-8\n"
+#
+msgid "      < 0.5 knots"
+msgstr ""
+#
+#, c-format
+msgid " width = %d height = %d\n"
+msgstr ""
+#
+#, c-format
+msgid " x = %d y = %d\n"
+msgstr ""
+#
+msgid ">= 0.5 and < 1.5"
+msgstr ""
+#
+msgid ">= 1.5 and < 2.5"
+msgstr ""
+#
+msgid ">= 2.5 and < 3.5"
+msgstr ""
+#
+msgid ">= 3.5 knots    "
+msgstr ""
+#
+msgid "About Tidal Arrows"
+msgstr ""
+#
+msgid "Cancel"
+msgstr ""
+#
+msgid "Date/Time"
+msgstr ""
+#
+msgid "Display tidal direction"
+msgstr ""
+#
+msgid "Display tidal rates (knots)"
+msgstr ""
+#
+msgid "Fill Colour"
+msgstr ""
+#
+msgid "Help"
+msgstr ""
+#
+msgid "Next"
+msgstr ""
+#
+msgid "Now"
+msgstr ""
+#
+msgid "OK"
+msgstr ""
+#
+msgid "Preferences"
+msgstr ""
+#
+msgid "Previous"
+msgstr ""
+#
+msgid "START Date/Time"
+msgstr ""
+#
+msgid "Select"
+msgstr ""
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+msgid "Select a folder"
+msgstr "Selecionar Diretório de Arquivos GRIB"
+#
+msgid "Select date/time for current prediction"
+msgstr ""
+#
+msgid "Step (Minutes)"
+msgstr ""
+#
+msgid ""
+"Tidal Current\n"
+"--------------------------------------------------------------\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"Use this data with caution.\n"
+"Use in conjunction with Tidal Current Atlases and Tidal Diamonds\n"
+"\n"
+"--------------------------------------------------------------------\n"
+"\n"
+"Note: 1 Rates shown are for a position corresponding to the centre\n"
+"of the base of the arrow. Tidal rate is shown as knots.\n"
+"\n"
+msgstr ""
+#
+#
+#
+#, fuzzy
+msgid "Tidal Current Arrow Colour"
+msgstr "Controle da Apresentação GRIB"
+#
+#
+#
+#, fuzzy
+msgid "Tidal Current Control"
+msgstr "Controle da Apresentação GRIB"
+#
+msgid "Tidal Data Folder"
+msgstr ""
+#
+msgid "Tide Calendar"
+msgstr ""
+#
+msgid "Time:"
+msgstr ""
+#
+msgid "Using Tide/Current data from:  "
+msgstr ""
+#
+#
+#
+#, fuzzy
+msgid "otcurrent"
+msgstr "Velocidade da Corrente, Nós."
+#
+msgid "otcurrent PlugIn for OpenCPN"
+msgstr ""
+#
+msgid ""
+"otcurrent PlugIn for OpenCPN\n"
+"Provides an overlay of Tidal Current (Stream) Arrows.\n"
+"\n"
+"\t\t\t   "
+msgstr ""
+#
+#
+#
+#, fuzzy
+msgid "otcurrent Settings"
+msgstr "Velocidade da Corrente, Nós."
+#
+#
+#
+#
+#
+#, fuzzy
+msgid "otcurrentDialogPosX"
+msgstr "Velocidade da Corrente, Nós."
+#
+#
+#
+#
+#
+#, fuzzy
+msgid "otcurrentDialogPosY"
+msgstr "Velocidade da Corrente, Nós."
+#
+#
+#
+#, fuzzy
+msgid "otcurrentDialogSizeX"
+msgstr "Velocidade da Corrente, Nós."
+#
+#
+#
+#, fuzzy
+msgid "otcurrentDialogSizeY"
+msgstr "Velocidade da Corrente, Nós."
+#
+#
+#
+#
+#
+#, fuzzy
+msgid "otcurrentFolder"
+msgstr "Velocidade da Corrente, Nós."
+#
+#
+#
+#
+#, fuzzy
+msgid "otcurrentInterval"
+msgstr "Velocidade da Corrente, Nós."
+#
+#
+#
+#
+#, fuzzy
+msgid "otcurrentUseDirection"
+msgstr "Velocidade da Corrente, Nós."
+#
+#
+#
+#
+#, fuzzy
+msgid "otcurrentUseFillColour"
+msgstr "Velocidade da Corrente, Nós."
+#
+#
+#
+#
+#, fuzzy
+msgid "otcurrentUseRate"
+msgstr "Velocidade da Corrente, Nós."
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "/Settings/otcurrent"
+#~ msgstr "Velocidade da Corrente, Nós."
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Colors"
+#~ msgstr "Fechar"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Current"
+#~ msgstr "Velocidade da Corrente, Nós."
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "GRIB"
+#~ msgstr "GRIB"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "GRIB File Directory"
+#~ msgstr "Diretório de Arquivos GRIB"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view invisible overlays:"
+#~ msgstr "Por favor Afaste ou Diminua a Escala para ver HTSGW GRIB suprimido"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view suppressed Air Temp.(2m) GRIB"
+#~ msgstr "Por favor Afaste ou Diminua a Escala para ver SEATEMP GRIB suprimido"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view suppressed CURRENT GRIB"
+#~ msgstr ""
+#~ "Por favor Afaste ou Diminua a Escala para ver OCEAN CURRENT GRIB suprimido"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view suppressed Clouds Cover GRIB"
+#~ msgstr ""
+#~ "Por favor Afaste ou Diminua a Escala para ver OCEAN CURRENT GRIB suprimido"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view suppressed Sea Surf.Temp. GRIB"
+#~ msgstr "Por favor Afaste ou Diminua a Escala para ver SEATEMP GRIB suprimido"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view suppressed Total Rainfall GRIB"
+#~ msgstr "Por favor Afaste ou Diminua a Escala para ver CRAIN GRIB suprimido"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Pressure"
+#~ msgstr "Pressão, hPa"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Pressure (MSL)"
+#~ msgstr "Pressão, hPa"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Sea Temp"
+#~ msgstr "Temperatura da Superfície do Mar, C"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "Show GRIB icon"
+#~ msgstr "Mostrar ícone GRIB"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Sign.Wave Height"
+#~ msgstr "Altura Significativa das Ondas, m"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "Use High Definition Graphics"
+#~ msgstr "Usar Gráficos de Alta Definição"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "WARNING:  QuickScat GRIB data is %d hours old."
+#~ msgstr "AVISO: Dados GRIB são de %d horas atrás."
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Wind Direction(10m)"
+#~ msgstr "Direção do Vento"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Wind Speed and Direction(10m)"
+#~ msgstr "Direção do Vento"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Wind Speed(10m)"
+#~ msgstr "Veloc. do Vento, Nós"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "Wind Speed, Kts."
+#~ msgstr "Veloc. do Vento, Nós"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "tcdata"
+#~ msgstr "Dados GRIB"

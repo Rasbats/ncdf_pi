@@ -1,0 +1,837 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: grib_pi 2.2.1111\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-17 10:33+0100\n"
+"PO-Revision-Date: 2010-12-09 22:34+0200\n"
+"Last-Translator: Asko Laite <alaite@netti.fi>\n"
+"Language-Team: Asko Laite <alaite@netti.fi>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Finnish\n"
+"X-Poedit-Country: FINLAND\n"
+#
+msgid "      < 0.5 knots"
+msgstr ""
+#
+#, c-format
+msgid " width = %d height = %d\n"
+msgstr ""
+#
+#, c-format
+msgid " x = %d y = %d\n"
+msgstr ""
+#
+msgid ">= 0.5 and < 1.5"
+msgstr ""
+#
+msgid ">= 1.5 and < 2.5"
+msgstr ""
+#
+msgid ">= 2.5 and < 3.5"
+msgstr ""
+#
+msgid ">= 3.5 knots    "
+msgstr ""
+#
+msgid "About Tidal Arrows"
+msgstr ""
+#
+msgid "Cancel"
+msgstr ""
+#
+msgid "Date/Time"
+msgstr ""
+#
+msgid "Display tidal direction"
+msgstr ""
+#
+msgid "Display tidal rates (knots)"
+msgstr ""
+#
+msgid "Fill Colour"
+msgstr ""
+#
+msgid "Help"
+msgstr ""
+#
+msgid "Next"
+msgstr ""
+#
+msgid "Now"
+msgstr ""
+#
+msgid "OK"
+msgstr ""
+#
+#
+#, fuzzy
+msgid "Preferences"
+msgstr "GRIB asetukset"
+#
+msgid "Previous"
+msgstr ""
+#
+msgid "START Date/Time"
+msgstr ""
+#
+msgid "Select"
+msgstr ""
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+msgid "Select a folder"
+msgstr "Valitse GRIB-hakemisto"
+#
+msgid "Select date/time for current prediction"
+msgstr ""
+#
+msgid "Step (Minutes)"
+msgstr ""
+#
+msgid ""
+"Tidal Current\n"
+"--------------------------------------------------------------\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"Use this data with caution.\n"
+"Use in conjunction with Tidal Current Atlases and Tidal Diamonds\n"
+"\n"
+"--------------------------------------------------------------------\n"
+"\n"
+"Note: 1 Rates shown are for a position corresponding to the centre\n"
+"of the base of the arrow. Tidal rate is shown as knots.\n"
+"\n"
+msgstr ""
+#
+#, fuzzy
+msgid "Tidal Current Arrow Colour"
+msgstr "GRIB Näyttöohjaus"
+#
+#, fuzzy
+msgid "Tidal Current Control"
+msgstr "GRIB Näyttöohjaus"
+#
+msgid "Tidal Data Folder"
+msgstr ""
+#
+msgid "Tide Calendar"
+msgstr ""
+#
+msgid "Time:"
+msgstr ""
+#
+msgid "Using Tide/Current data from:  "
+msgstr ""
+#
+#, fuzzy
+msgid "otcurrent"
+msgstr "Virran nopeus, solmua"
+#
+#, fuzzy
+msgid "otcurrent PlugIn for OpenCPN"
+msgstr "GRIB moduuli OpenCPN:lle"
+#
+msgid ""
+"otcurrent PlugIn for OpenCPN\n"
+"Provides an overlay of Tidal Current (Stream) Arrows.\n"
+"\n"
+"\t\t\t   "
+msgstr ""
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+msgid "otcurrent Settings"
+msgstr "GRIB asetukset"
+#
+#
+#
+#, fuzzy
+msgid "otcurrentDialogPosX"
+msgstr "Virran nopeus, solmua"
+#
+#
+#
+#, fuzzy
+msgid "otcurrentDialogPosY"
+msgstr "Virran nopeus, solmua"
+#
+#, fuzzy
+msgid "otcurrentDialogSizeX"
+msgstr "Virran nopeus, solmua"
+#
+#, fuzzy
+msgid "otcurrentDialogSizeY"
+msgstr "Virran nopeus, solmua"
+#
+#
+#
+#, fuzzy
+msgid "otcurrentFolder"
+msgstr "Virran nopeus, solmua"
+#
+#
+#, fuzzy
+msgid "otcurrentInterval"
+msgstr "Virran nopeus, solmua"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+msgid "otcurrentUseDirection"
+msgstr "GRIB asetukset"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+msgid "otcurrentUseFillColour"
+msgstr "GRIB asetukset"
+#
+#
+#, fuzzy
+msgid "otcurrentUseRate"
+msgstr "Virran nopeus, solmua"
+#
+#
+#
+#, fuzzy
+#~ msgid "/Settings/otcurrent"
+#~ msgstr "Virran nopeus, solmua"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Colors"
+#~ msgstr "&Sulje"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Current"
+#~ msgstr "Virran nopeus, solmua"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Data Display Preferences"
+#~ msgstr "GRIB asetukset"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "GRIB"
+#~ msgstr "GRIB"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "GRIB File Directory"
+#~ msgstr "GRIB-tiedostohakemisto"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "Grib"
+#~ msgstr "Grib"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view invisible overlays:"
+#~ msgstr "Zoomaa ulos nähdäksesi GRIB merkitsevän aallonkorkeuden"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view suppressed Air Temp.(2m) GRIB"
+#~ msgstr "Zoomaa ulos nähdäksesi GRIB pintalämpötilan"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view suppressed CURRENT GRIB"
+#~ msgstr "Zoomaa ulos nähdäksesi GRIB virtatiedot"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view suppressed Clouds Cover GRIB"
+#~ msgstr "Zoomaa ulos nähdäksesi GRIB virtatiedot"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view suppressed Sea Surf.Temp. GRIB"
+#~ msgstr "Zoomaa ulos nähdäksesi GRIB pintalämpötilan"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Please Zoom or Scale Out to view suppressed Total Rainfall GRIB"
+#~ msgstr "Zoomaa ulos nähdäksesi GRIB sadetiedon"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Pressure"
+#~ msgstr "Ilampaine, mbar"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Pressure (MSL)"
+#~ msgstr "Ilampaine, mbar"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Sea Temp"
+#~ msgstr "Meriveden pintalämpötila, C"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "Show GRIB icon"
+#~ msgstr "Näytä GRIB-ikoni"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Sign.Wave Height"
+#~ msgstr "Merkitsevä aallonkorkeus, m"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "Use High Definition Graphics"
+#~ msgstr "Käytä tarkkuusgrafiikkaa"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "WARNING:  QuickScat GRIB data is %d hours old."
+#~ msgstr "VAROITUS:  QuickScat GRIB data on %d tuntia vanhaa."
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Wind Direction(10m)"
+#~ msgstr "Tuulen suunta"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Wind Speed and Direction(10m)"
+#~ msgstr "Tuulen suunta"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "Wind Speed(10m)"
+#~ msgstr "Tuulen nopeus, solmua"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#~ msgid "Wind Speed, Kts."
+#~ msgstr "Tuulen nopeus, solmua"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid "tcdata"
+#~ msgstr "GRIB Data"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#, fuzzy
+#~ msgid ""
+#~ "tcurrent PlugIn for OpenCPN\n"
+#~ "Provides basic tcurrent file overlay capabilities for several tcurrent "
+#~ "file types.\n"
+#~ "\n"
+#~ "Supported tcurrent file types include:\n"
+#~ "- wind direction and speed\n"
+#~ "- significant wave height\n"
+#~ "- sea surface temperature\n"
+#~ "- surface current direction and speed."
+#~ msgstr ""
+#~ "GRIB moduuli  OpenCPN:lle\n"
+#~ "Näyttää kartalla GRIB-tiedon usean tyyppisistä tiedostoista.\n"
+#~ "\n"
+#~ "Tukee seuraavia GRIB-tiedon sisältöjä:\n"
+#~ "- tuulen suunta ja nopeus\n"
+#~ "- merkitsevä aallonkorkeus\n"
+#~ "- pintaveden lämpötila\n"
+#~ "-virran nopeus ja suunta"
