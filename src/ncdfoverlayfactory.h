@@ -36,7 +36,7 @@
 #include "ocpn_plugin.h"
 #include "ncdfdata.h"
 #include "wx/graphics.h"
-#include <gl/GL.h>
+#include <GL/gl.h>
 #include <vector>
 #include "ncdf.h"
 #include <map>
