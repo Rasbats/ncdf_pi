@@ -36,7 +36,7 @@
 #endif //precompiled headers
 
 #define     PLUGIN_VERSION_MAJOR    0
-#define     PLUGIN_VERSION_MINOR    2
+#define     PLUGIN_VERSION_MINOR    3
 
 #define     MY_API_VERSION_MAJOR    1
 #define     MY_API_VERSION_MINOR    7
@@ -74,6 +74,7 @@ public:
 	  bool RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp);
 	 
 	  bool RenderOverlayArrow(wxDC *dc, PlugIn_ViewPort *vp);
+	  bool RenderGLOverlayArrow(wxGLContext *pcontext, PlugIn_ViewPort *vp);
       
 	  void SetCursorLatLon(double lat, double lon);
 	  void OnToolbarToolCallback(int id);

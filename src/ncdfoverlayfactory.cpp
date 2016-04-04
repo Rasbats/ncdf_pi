@@ -574,6 +574,81 @@ void ncdfOverlayFactory::DrawAllCurrentsInViewPort(double dlat, double dlon, dou
 
 }
 
+void ncdfOverlayFactory::DrawAllGLCurrentsInViewPort(double dlat, double dlon, double ddir, double dfor, wxGLContext *pcontext, PlugIn_ViewPort *myVP)
+{
+
+	if (myVP->chart_scale > 1000000){
+		return;
+	}
+
+	m_pdc = NULL;
+	
+
+	double rot_vp = myVP->rotation * 180 / M_PI;
+
+	// Set up the scaler
+	int mmx, mmy;
+	wxDisplaySizeMM(&mmx, &mmy);
+
+	int sx, sy;
+	wxDisplaySize(&sx, &sy);
+
+	double m_pix_per_mm = ((double)sx) / ((double)mmx);
+
+	int mm_per_knot = 10;
+	float current_draw_scaler = mm_per_knot * m_pix_per_mm * 100 / 100.0;
+
+	// End setting up scaler
+
+	float tcvalue, dir;
+
+	tcvalue = dfor;
+	dir = ddir;
+
+	double lat, lon;
+
+	lat = dlat;
+	lon = dlon;
+
+	int pixxc, pixyc;
+	wxPoint cpoint;
+	GetCanvasPixLL(myVP, &cpoint, lat, lon);
+
+	pixxc = cpoint.x;
+	pixyc = cpoint.y;
+
+
+	//    Adjust drawing size using logarithmic scale
+	double a1 = fabs(tcvalue) * 10;
+	a1 = wxMax(1.0, a1);      // Current values less than 0.1 knot
+	// will be displayed as 0
+	double a2 = log10(a1);
+	double scale = current_draw_scaler * a2;
+
+	drawCurrentArrow(pixxc, pixyc, dir - 90 + rot_vp, scale / 100, tcvalue, *m_pdc, myVP);
+
+	int shift = 0;
+
+	
+
+		wxColour colour;
+		colour = GetSeaCurrentGraphicColor(tcvalue);
+		c_GLcolour = colour;  // for filling GL arrows
+
+		drawGLPolygons(this, m_pdc, vp, DrawGLPolygon(), lat, lon, shift);
+	
+
+	shift = 5;
+
+	
+
+		DrawGLLabels(this, m_pdc, vp, DrawGLText(fabs(tcvalue), 1), lat, lon, 0);
+		shift = 13;
+
+		DrawGLLabels(this, m_pdc, vp, DrawGLTextDir(dir, 0), lat, lon, shift);
+
+}
+
 void ncdfOverlayFactory::drawCurrentArrow(int x, int y, double rot_angle, double scale, double rate, wxDC &dc, PlugIn_ViewPort *vp)
 {
 	double m_rate = fabs(rate);

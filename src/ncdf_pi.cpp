@@ -306,6 +306,26 @@ bool ncdf_pi::RenderOverlayArrow(wxDC *dc, PlugIn_ViewPort *vp)
 	return true;
 
 }
+
+bool ncdf_pi::RenderGLOverlayArrow(wxGLContext *pcontext, PlugIn_ViewPort *vp)
+{
+	if (!m_pncdfDialog || !m_pncdfDialog->IsShown())
+		return false;
+	if (m_pncdfDialog && m_pncdfOverlayFactory)
+	{
+		for (std::list<Arrow*>::iterator it = m_pncdfDialog->m_ArrowList.begin();
+			it != m_pncdfDialog->m_ArrowList.end(); it++){
+
+			double myLat = (*it)->m_lat;
+			double myLon = (*it)->m_lon;
+			m_pncdfDialog->getCurrentData(myLat, myLon);
+			m_pncdfOverlayFactory->DrawAllGLCurrentsInViewPort(myLat, myLon, ddir, dfor, pcontext, vp);
+		}
+	}
+
+	return true;
+
+}
 void ncdf_pi::SetCursorLatLon(double lat, double lon)
 {
       if(m_pncdfDialog)

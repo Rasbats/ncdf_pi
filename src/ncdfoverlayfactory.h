@@ -36,7 +36,7 @@
 #include "ocpn_plugin.h"
 #include "ncdfdata.h"
 #include "wx/graphics.h"
-#include <GL/gl.h>
+#include <gl/GL.h>
 #include <vector>
 #include "ncdf.h"
 #include <map>
@@ -64,17 +64,17 @@ public:
 	 bool RenderncdfOverlay(wxDC &dc, PlugIn_ViewPort *vp);
 	 bool DoRenderncdfOverlay(PlugIn_ViewPort *vp);
      void RenderSelectionRectangle();
-	 void RenderMyArrows(PlugIn_ViewPort *vp);
-     void RenderncdfCurrent();
+	 void RenderMyArrows(PlugIn_ViewPort *vp);  
+     void RenderncdfCurrent();     
      bool RenderncdfCurrentBmp();
 
      void drawWaveArrow(int i, int j, double ang, wxColour arrowColor);
-
+     
      void drawTransformedLine( wxPen pen, double si, double co,int di, int dj, int i,int j, int k,int l);
 	 void DrawGLLine(double x1, double y1, double x2, double y2, double width, wxColour myColour);
 	 void DrawOLBitmap(const wxBitmap &bitmap, wxCoord x, wxCoord y, bool usemask);
 	 void DrawAllCurrentsInViewPort(double dlat, double dlon, double ddir, double dfor, wxDC &myDC, PlugIn_ViewPort *myVP);
-
+	 void DrawAllGLCurrentsInViewPort(double dlat, double dlon, double ddir, double dfor, wxGLContext *pcontext, PlugIn_ViewPort *myVP);
 	 void drawCurrentArrow(int x, int y, double rot_angle, double scale, double rate, wxDC &dc, PlugIn_ViewPort *vp);
 	 wxImage &DrawGLPolygon();
 	 void drawGLPolygons(ncdfOverlayFactory *pof, wxDC *dc,	PlugIn_ViewPort *vp, wxImage &imageLabel, double myLat, double myLon, int offset);
@@ -87,14 +87,14 @@ public:
      void drawGrandeBarbule(wxDC *pmdc, wxPen pen, bool south,
                                double si, double co, int di, int dj, int b);
      void drawTriangle(wxDC *pmdc, wxPen pen, bool south,
-			       double si, double co, int di, int dj, int b);
-
-     wxColour GetSeaCurrentGraphicColor(double val_in);
-
+			       double si, double co, int di, int dj, int b); 
+     
+     wxColour GetSeaCurrentGraphicColor(double val_in); 
+   
      PlugIn_ViewPort 	*vp;
 	 bool 		m_bReadyToRender;
 	 bool		renderSelectionRectangle;
-
+     
 private:
 	 ncdfDataMessage g2data;
 	 int numberOfPoints;
@@ -107,14 +107,14 @@ private:
      wxFloat32 		*data;
      wxDC		 	*pmdc;
      PlugIn_ViewPort 	*m_last_vp;
-     double	 	m_last_vp_latMax;
+     double	 	m_last_vp_latMax;     
      int			space[7];
      wxUint16 		m_space;
-
+     
      wxBitmap		*m_pbm_current;
      Selection		*rect;
-
-
+	 
+	 
 	 //  for GL
 	 wxColour c_GLcolour;
 	 wxPoint p_basic[9];
