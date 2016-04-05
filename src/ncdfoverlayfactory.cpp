@@ -635,17 +635,12 @@ void ncdfOverlayFactory::DrawAllGLCurrentsInViewPort(double dlat, double dlon, d
 		colour = GetSeaCurrentGraphicColor(tcvalue);
 		c_GLcolour = colour;  // for filling GL arrows
 
-		drawGLPolygons(this, m_pdc, vp, DrawGLPolygon(), lat, lon, shift);
+		drawGLPolygons(this, m_pdc, myVP, DrawGLPolygon(), lat, lon, shift);
 	
-
-	shift = 5;
-
-	
-
-		DrawGLLabels(this, m_pdc, vp, DrawGLText(fabs(tcvalue), 1), lat, lon, 0);
+		DrawGLLabels(this, m_pdc, myVP, DrawGLText(fabs(tcvalue), 1), lat, lon, 0);
 		shift = 13;
 
-		DrawGLLabels(this, m_pdc, vp, DrawGLTextDir(dir, 0), lat, lon, shift);
+		DrawGLLabels(this, m_pdc, myVP, DrawGLTextDir(dir, 0), lat, lon, shift);
 
 }
 
