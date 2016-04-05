@@ -269,7 +269,7 @@ bool ncdf_pi::RenderOverlay(wxDC &pmdc, PlugIn_ViewPort *vp)
 bool ncdf_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp)
 {
 	if (b_showODAS == true){
-		RenderOverlayArrow(NULL, vp);
+		RenderGLOverlayArrow(pcontext, vp);
 		return true;
 	}
 
@@ -291,6 +291,7 @@ bool ncdf_pi::RenderOverlayArrow(wxDC *dc, PlugIn_ViewPort *vp)
 {
 	if (!m_pncdfDialog || !m_pncdfDialog->IsShown())
 		return false;
+
 	if (m_pncdfDialog && m_pncdfOverlayFactory)
 	{
 		for (std::list<Arrow*>::iterator it = m_pncdfDialog->m_ArrowList.begin();
