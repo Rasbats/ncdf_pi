@@ -28,7 +28,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <netcdfcpp.h>
+#include <netcdf.h>
 #include <list>
 
 #define NDIMS 3
