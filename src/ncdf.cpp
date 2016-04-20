@@ -515,12 +515,12 @@ int MainDialog::nc_get(wxString filestr){
 
 wxDateTime MainDialog::GetDateFromHours(int hours_in){
 
-	wxString baseDateTime = _T("2011-03-31 00:00:00");
+	wxString baseDateTime = _T("2011-12-31 00:00:00");
 
 	wxDateTime m_dt;
 	m_dt.ParseDateTime(baseDateTime);
 
-	wxTimeSpan m_ts = wxTimeSpan::Hours(hours_in + 1);
+	wxTimeSpan m_ts = wxTimeSpan::Hours(hours_in);
 	m_dt.Add(m_ts);
 
 	return m_dt;
