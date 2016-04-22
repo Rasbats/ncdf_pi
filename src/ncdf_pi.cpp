@@ -89,10 +89,9 @@ int ncdf_pi::Init(void)
       m_ncdf_dialog_sy = 460;
       m_pncdfDialog = NULL;
       m_pncdfOverlayFactory = NULL;
+	  ::wxDisplaySize(&m_display_width, &m_display_height);
 	  m_choice = 0;
 	  b_showODAS = false;
-
-      ::wxDisplaySize(&m_display_width, &m_display_height);
 
       //    Get a pointer to the opencpn configuration object
       m_pconfig = GetOCPNConfigObject();
@@ -113,6 +112,7 @@ int ncdf_pi::Init(void)
 
       m_pncdfOverlayFactory = new ncdfOverlayFactory;
 	  m_pncdfOverlayFactory->m_bReadyToRender=false;
+	  
 
 	  wxMenu dummy_menu;
 	  m_position_menu_id = AddCanvasContextMenuItem
@@ -230,6 +230,7 @@ void ncdf_pi::OnToolbarToolCallback(int id)
 	    m_pncdfDialog->setPlugIn(this);
       }
       m_pncdfDialog->Show();                        // Show modeless, so it stays on the screen
+	  
 }
 
 void ncdf_pi::OnncdfDialogClose()
@@ -255,7 +256,8 @@ bool ncdf_pi::RenderOverlay(wxDC &pmdc, PlugIn_ViewPort *vp)
     {
             if(m_pncdfOverlayFactory->isReadyToRender())
             {
-                  m_pncdfOverlayFactory->RenderncdfOverlay ( pmdc, vp );
+				m_pncdfOverlayFactory->SetParentSize(m_display_width, m_display_height);
+				m_pncdfOverlayFactory->RenderncdfOverlay ( pmdc, vp );
                   return true;
             }
             else
@@ -277,6 +279,7 @@ bool ncdf_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp)
 	{
 		if (m_pncdfOverlayFactory->isReadyToRender())
 		{
+			m_pncdfOverlayFactory->SetParentSize(m_display_width, m_display_height);
 			m_pncdfOverlayFactory->RenderGLncdfOverlay(pcontext, vp);
 			return true;
 		}

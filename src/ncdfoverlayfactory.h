@@ -94,6 +94,9 @@ public:
      PlugIn_ViewPort 	*vp;
 	 bool 		m_bReadyToRender;
 	 bool		renderSelectionRectangle;
+
+	 void SetParentSize(int w, int h) { m_ParentSize.SetWidth(w); m_ParentSize.SetHeight(h); }
+	 wxSize  m_ParentSize;
      
 private:
 	 ncdfDataMessage g2data;

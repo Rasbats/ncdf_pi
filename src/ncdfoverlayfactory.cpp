@@ -135,6 +135,7 @@ bool ncdfOverlayFactory::DoRenderncdfOverlay(PlugIn_ViewPort *vp )
 
 
 	if(gui->m_checkBoxBmpCurrentForce->GetValue())
+
       RenderncdfCurrentBmp();    
 	
 	if(gui->m_checkBoxDCurrent->GetValue())
@@ -229,7 +230,9 @@ bool ncdfOverlayFactory::RenderncdfCurrentBmp()
                   GetCanvasPixLL(vp,  &pmax, blat, blon);
 
                   width = abs(pmax.x - pmin.x);
-                  height = abs(pmax.y - pmin.y);
+                  height = abs(pmax.y - pmin.y);	
+
+				  
 
 	          if(vp->pix_width < width) width = vp->pix_width;
 		  if(vp->pix_height < height || vp->lat_max < blat) 
@@ -243,9 +246,15 @@ bool ncdfOverlayFactory::RenderncdfCurrentBmp()
 		  }
 		  else	if(vp->pix_width != width && vp->pix_height != height)  
 		    GetCanvasPixLL(vp,  &porg, blat, tlon);
-		 
+		 		  
                   {
-                        //    This could take a while....
+					  //    Dont try to create enormous GRIB bitmaps ( no more than the screen size )
+					  if (width > m_ParentSize.GetWidth() || height > m_ParentSize.GetHeight()){
+						  wxMessageBox(wxString::Format(_T("%i"), (int)width));
+						  wxMessageBox(wxString::Format(_T("%i"), (int)m_ParentSize.GetWidth()));
+						  return false;
+					  }
+					  //    This could take a while....
 			      double **currentDir = (double **) g2data.ucurr;
 				  if (currentDir == NULL){ 
 					  wxMessageBox(_T("null"));
@@ -322,6 +331,8 @@ bool ncdfOverlayFactory::RenderncdfCurrentBmp()
                   DrawOLBitmap(*m_pbm_current, porg.x, porg.y, true);
             }
       return true;
+	  
+ 
 }
 
 
