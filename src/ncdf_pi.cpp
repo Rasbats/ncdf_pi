@@ -258,10 +258,10 @@ bool ncdf_pi::RenderOverlay(wxDC &pmdc, PlugIn_ViewPort *vp)
             {
 				m_pncdfOverlayFactory->SetParentSize(m_display_width, m_display_height);
 				m_pncdfOverlayFactory->RenderncdfOverlay ( pmdc, vp );
-                  return true;
+                return true;
             }
             else
-                  return false;
+                return false;
     }
     else
             return false;

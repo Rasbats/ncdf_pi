@@ -267,14 +267,17 @@ bool ncdfOverlayFactory::RenderncdfCurrentBmp()
                               wxImage gr_image(width, height);
                               gr_image.InitAlpha();
 
-                              int ncdf_pixel_size = 8;
+                              int ncdf_pixel_size = 4;
 			      
 			      ::wxBeginBusyCursor();
 				  int myCounter = 0;
-                              wxPoint p;
-                              for(int ipix = 0 ; ipix < (width + 1) ; ipix += ncdf_pixel_size)
+                  
+				  unsigned char a;
+				  wxPoint p;
+
+							  for (int ipix = 0; ipix < (width + 1); ipix += ncdf_pixel_size)
                               {
-                                    for(int jpix = 0 ; jpix < (height + 1) ; jpix += ncdf_pixel_size)
+								  for (int jpix = 0; jpix < (height + 1); jpix += ncdf_pixel_size)
                                     {
                                           double lat, lon;
                                           p.x = ipix + porg.x;
@@ -288,6 +291,12 @@ bool ncdfOverlayFactory::RenderncdfCurrentBmp()
                                           if ((vx != ncdf_NOTDEF) && (vy != ncdf_NOTDEF))
                                           {
 											    double  vkn = sqrt(vx*vx+vy*vy)*3.6/1.852;
+												if (vkn == 0){
+													a = 0;													
+												}else{
+													a = 128;													
+												}
+
                                                 wxColour c = GetSeaCurrentGraphicColor(vkn);
                                                 unsigned char r = c.Red();
                                                 unsigned char g = c.Green();
@@ -297,7 +306,7 @@ bool ncdfOverlayFactory::RenderncdfCurrentBmp()
                                                       for(int yp=0 ; yp < ncdf_pixel_size ; yp++)
                                                 {
                                                       gr_image.SetRGB(ipix + xp, jpix + yp, r,g,b);
-													  gr_image.SetAlpha(ipix + xp, jpix + yp, 128);
+													  gr_image.SetAlpha(ipix + xp, jpix + yp, a);
 
                                                 }
                                           }
