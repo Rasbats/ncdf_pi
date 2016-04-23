@@ -540,10 +540,11 @@ void MainDialog::onDirChanged(wxCommandEvent& event)
 
 void MainDialog::onTreeSelectionChanged(wxTreeEvent& event)
 {
-	if(this->my_ncdfReader->isReading == true){ 	ncdfDialog::onTreeSelectionChanged(event); return; }
+	if(this->my_ncdfReader->isReading == true){ncdfDialog::onTreeSelectionChanged(event); return; }
 
  	if(this->m_treeCtrl->GetRootItem() == event.GetItem())
 		return;
+
 	wxString filename = this->m_treeCtrl->GetItemText(event.GetItem());
 	MyTreeItemData *data = (MyTreeItemData *) this->m_treeCtrl->GetItemData(event.GetItem());
 	if(data != NULL)

@@ -250,14 +250,12 @@ bool ncdfOverlayFactory::RenderncdfCurrentBmp()
                   {
 					  //    Dont try to create enormous GRIB bitmaps ( no more than the screen size )
 					  if (width > m_ParentSize.GetWidth() || height > m_ParentSize.GetHeight()){
-						  wxMessageBox(wxString::Format(_T("%i"), (int)width));
-						  wxMessageBox(wxString::Format(_T("%i"), (int)m_ParentSize.GetWidth()));
 						  return false;
 					  }
+
 					  //    This could take a while....
 			      double **currentDir = (double **) g2data.ucurr;
 				  if (currentDir == NULL){ 
-					  wxMessageBox(_T("null"));
 					  return false;
 				  }
 
