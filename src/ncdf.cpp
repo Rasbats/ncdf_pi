@@ -548,11 +548,12 @@ void MainDialog::onTreeSelectionChanged(wxTreeEvent& event)
 	wxString filename = this->m_treeCtrl->GetItemText(event.GetItem());
 	
 	MyTreeItemData *data = (MyTreeItemData *) this->m_treeCtrl->GetItemData(event.GetItem());
-	
-	if (this->m_treeCtrl->HasChildren(event.GetItem())){ ncdfDialog::onTreeSelectionChanged(event); return; }
 
 	if(data != NULL)
 	{
+		if (this->m_treeCtrl->HasChildren(event.GetItem())){ 
+			ncdfDialog::onTreeSelectionChanged(event); return; 
+	    }
 		this->my_ncdfReader->readncdfFile(data->myData);
 		//pPlugIn->GetncdfOverlayFactory()->renderSelectionRectangle = false;
 		RequestRefresh(m_parent);
